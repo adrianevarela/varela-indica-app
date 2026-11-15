@@ -1,0 +1,36 @@
+name: Completar fila com a Shopee
+
+# Todo dia as 6h (Brasilia): horarios sem produto nos proximos 3 dias ganham um achadinho da Shopee.
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      simular:
+        description: "So mostrar o que escolheria"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: postar
+  cancel-in-progress: false
+
+jobs:
+  completar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Buscar produtos na Shopee
+        env:
+          SHOPEE_APP_ID: ${{ secrets.SHOPEE_APP_ID }}
+          SHOPEE_SECRET: ${{ secrets.SHOPEE_SECRET }}
+        run: python buscar_shopee.py ${{ inputs.simular && '--simular' || '' }}
+      - name: Guardar a fila
+        run: |
+          git config user.name "varela-indica-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add fila.json
+          git diff --cached --quiet || (git commit -m "Shopee completou a fila" && git pull --rebase && git push)
