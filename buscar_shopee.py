@@ -49,7 +49,7 @@ PROIBIDAS = ["inspirad", "contratipo", "replica", "réplica", "similar", "1a lin
 
 def consultar(query, variaveis):
     corpo = json.dumps({"query": query, "variables": variaveis}, separators=(",", ":"))
-    for tentativa in range(4):
+    for tentativa in range(2):
         ts = str(int(time.time()))
         assinatura = hashlib.sha256((APP_ID + ts + corpo + SEGREDO).encode()).hexdigest()
         req = urllib.request.Request(URL, data=corpo.encode(), method="POST", headers={
@@ -59,7 +59,7 @@ def consultar(query, variaveis):
             resposta = json.loads(r.read())
         if not resposta.get("errors"):
             return resposta["data"]
-        time.sleep(6 * (tentativa + 1))  # a Shopee limita a velocidade: espera e tenta de novo
+        time.sleep(5)  # a Shopee as vezes falha: espera e tenta mais uma vez (se falhar, vai para o proximo tema)
     raise RuntimeError(f"Shopee recusou: {resposta['errors']}")
 
 
