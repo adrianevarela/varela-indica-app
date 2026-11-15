@@ -1,12 +1,14 @@
 {
- "contador": 2,
+ "contador": 3,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "tg | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "ig | 2026-11-16 11:00 | caneca Kit Garrafa Térmica Vacuum",
   "fb | 2026-11-16 11:00 | caneca Kit Garrafa Térmica Vacuum",
-  "tg | 2026-11-16 11:00 | caneca Kit Garrafa Térmica Vacuum"
+  "tg | 2026-11-16 11:00 | caneca Kit Garrafa Térmica Vacuum",
+  "ig | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox",
+  "tg | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox"
  ],
  "publicados": [
   {
@@ -54,6 +56,28 @@
    "reel": "17917898832519999",
    "story": "18077644403728242",
    "facebook": "1476119241067376"
+  },
+  {
+   "numero": 3,
+   "chave": "2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox",
+   "em": "2026-11-15T20:22:13.556022-03:00",
+   "produto": "ROMANTIC CROWN Copo Térmico Inox",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/6VPSnGuYzM",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lh-mtgcw2meqoeac6",
+   "preco": "R$ 34,98",
+   "item": {
+    "produto": "ROMANTIC CROWN Copo Térmico Inox",
+    "loja": "Shopee",
+    "itemId": "45963749827",
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lh-mtgcw2meqoeac6",
+    "video": "",
+    "link": "https://s.shopee.com.br/6VPSnGuYzM",
+    "preco": "R$ 34,98",
+    "texto": "🧡 <b>ROMANTIC CROWN Copo Térmico Inox</b>\n\nROMANTIC CROWN Copo Térmico Inox Portátil 1200ml/600ml com Tampa e Canudo Garrafa Térmica Inoxidável\n\n💰 De <s>R$ 69,96</s> por <b>R$ 34,98</b> (-50%)\n⭐ 5,0 · +6 mil vendidos"
+   },
+   "reel": "18001411785047172",
+   "story": "18113460239614105"
   }
  ]
 }
