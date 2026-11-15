@@ -203,8 +203,10 @@ def video_story(video, numero):
     """O Instagram nao deixa app colocar figurinha de link: escreve no video onde achar o link."""
     saida = os.path.join(os.path.dirname(video), "story.mp4")
     fonte = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    faixa = (f"drawtext=fontfile={fonte}:text='LINK NA BIO  ·  produto nº {numero}':fontsize=58:fontcolor=white:"
-             "box=1:boxcolor=0xE91E63@0.92:boxborderw=28:x=(w-text_w)/2:y=230")
+    # duas linhas que cabem na largura (o video e sempre 1080x1920), abaixo do nome do perfil no topo do story
+    estilo = f"fontfile={fonte}:fontcolor=white:box=1:boxcolor=0xE91E63@0.92:x=(w-text_w)/2"
+    faixa = (f"drawtext={estilo}:text='LINK NA BIO':fontsize=80:boxborderw=24:y=290,"
+             f"drawtext={estilo}:text='produto nº {numero}':fontsize=60:boxborderw=18:y=420")
     try:
         ffmpeg("-i", video, "-vf", faixa, "-t", "60", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
                "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", saida)
