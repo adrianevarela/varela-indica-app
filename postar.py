@@ -141,9 +141,80 @@ def quebrar(texto, largura):
     return linhas + ([atual] if atual else [])
 
 
-def baixar_video(item, pasta):
+def dados_oferta(item):
+    texto = item.get("texto", "")
+    antes = re.search(r"<s>(R\$\s?[\d.,]+)</s>", texto)
+    desconto = re.search(r"\(-(\d+)%\)", texto)
+    avaliacao = re.search(r"⭐\s*([\d,]+)\s*·\s*([^\n<]+)", texto)
+    return {
+        "antes": antes.group(1) if antes else "",
+        "desconto": int(desconto.group(1)) if desconto else 0,
+        "nota": avaliacao.group(1) if avaliacao else "",
+        "vendas": avaliacao.group(2).strip() if avaliacao else "",
+    }
+
+
+def video_animado(foto, item, numero, total, saida):
+    """Video de achadinho a partir de UMA foto: fundo desfocado, produto entrando, selo de desconto,
+    preco antigo riscado, preco novo, avaliacao e tela final com o link na bio."""
+    o = dados_oferta(item)
+    fim = max(5.0, total - 3.5)                      # quando comeca a tela final
+    limpa = lambda t: re.sub(r"[^\w\s$,.!+\-·★/%]", "", t).replace("'", "").strip()
+    largura = lambda t, tam: len(t) * tam * 0.62     # largura aproximada do texto (DejaVu Bold)
+
+    def texto(t, tam, y, cor="white", caixa=None, ini=0.0, ate=None, borda=16):
+        quando = f"gte(t,{ini})" + (f"*lt(t,{ate})" if ate else "")
+        alpha = f"if(lt(t,{ini}+0.35),(t-{ini})/0.35,1)"
+        extra = f":box=1:boxcolor={caixa}:boxborderw={borda}" if caixa else ":shadowcolor=black@0.6:shadowx=3:shadowy=3"
+        return (f"drawtext=fontfile={FONTE}:expansion=none:text='{limpa(t)}':fontsize={tam}:fontcolor={cor}"
+                f"{extra}:x=(w-text_w)/2:y={y}:enable='{quando}':alpha='{alpha}'")
+
+    camadas = []
+    if o["desconto"] >= 5:
+        camadas.append(f"drawtext=fontfile={FONTE}:expansion=none:text='-{o['desconto']}%':fontsize=96:fontcolor=0xC2185B:"
+                       f"box=1:boxcolor=0xFFD400:boxborderw=22:x=w-text_w-70:y=1110:enable='between(t,1.2,{fim})':"
+                       f"alpha='if(lt(t,1.55),(t-1.2)/0.35,1)'")
+    y = 1290
+    for linha in quebrar(item["produto"], 24)[:2]:
+        camadas.append(texto(linha, 58, y, ini=0.6, ate=fim))
+        y += 74
+    y += 16
+    if o["antes"]:
+        t_antes = f"De {o['antes']}"
+        camadas.append(texto(t_antes, 54, y, cor="0xFFE3EC", ini=2.0, ate=fim))
+        w = largura(t_antes, 54)
+        camadas.append(f"drawbox=x={(1080 - w) / 2:.0f}:y={y + 26}:w={w:.0f}:h=7:color=0xFFD400:t=fill:enable='between(t,2.4,{fim})'")
+        y += 84
+    if preco_de(item):
+        camadas.append(texto(f"POR {preco_de(item)}", 100, y, cor="0xFFE14D", caixa="0xE91E63@0.95", ini=2.8, ate=fim, borda=22))
+        y += 150
+    if o["nota"]:
+        camadas.append(texto(f"★ {o['nota']}  ·  {o['vendas']}", 44, y, ini=3.6, ate=fim))
+    # tela final
+    camadas += [
+        f"drawbox=x=0:y=0:w=iw:h=ih:color=black@0.55:t=fill:enable='gte(t,{fim})'",
+        texto("LINK NA BIO", 104, 720, caixa="0xE91E63@0.95", ini=fim, borda=26),
+        texto(f"produto nº {numero}", 76, 880, cor="0xFFE14D", ini=fim + 0.3),
+        texto("Comenta EU QUERO", 64, 1010, ini=fim + 0.6),
+    ]
+    filtro = (
+        "[0:v]split[f1][f2];"
+        "[f1]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=28:2,eq=brightness=-0.10[fundo];"
+        "[f2]scale=860:860:force_original_aspect_ratio=decrease,pad=900:900:(ow-iw)/2:(oh-ih)/2:white,"
+        f"zoompan=z='min(1+0.0012*on,1.12)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=900x900:fps=30[produto];"
+        "[fundo][produto]overlay=x=90:y='if(lt(t,0.5),300+(1-t/0.5)*500,300)'[base];"
+        "[base]" + ",".join(camadas) + "[v]"
+    )
+    ffmpeg("-loop", "1", "-framerate", "30", "-t", f"{total:.2f}", "-i", foto,
+           "-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo",
+           "-filter_complex", filtro, "-map", "[v]", "-map", "1:a", "-t", f"{total:.2f}",
+           "-c:v", "libx264", "-preset", "veryfast", "-crf", "22", "-pix_fmt", "yuv420p", "-r", "30",
+           "-c:a", "aac", "-movflags", "+faststart", saida)
+
+
+def baixar_video(item, pasta, numero=0, total=12.0):
     """Devolve (MP4 vertical 1080x1920, veio_da_foto).
-    Usa o video do anuncio (campo 'video': .m3u8 ou .mp4); sem video, cria um de 20 s a partir da foto."""
+    Usa o video do anuncio (campo 'video': .m3u8 ou .mp4); sem video, cria um animado a partir da foto."""
     saida = os.path.join(pasta, "base.mp4")
     if item.get("video"):
         try:
@@ -158,6 +229,12 @@ def baixar_video(item, pasta):
         raise RuntimeError("produto sem video e sem foto")
     foto = os.path.join(pasta, "foto.jpg")
     urllib.request.urlretrieve(item["foto"], foto)
+    try:
+        video_animado(foto, item, numero, total, saida)
+        return saida, True
+    except RuntimeError as e:
+        log(f"  video animado falhou ({e}); usando o modelo simples")
+    # modelo simples (reserva): foto com zoom + nome e preco
     zoom = ("scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:white,"
             "zoompan=z='min(zoom+0.0005,1.15)':d=600:s=1080x1920:fps=30")
     # nome em ate 2 linhas curtas + preco grande embaixo, tudo dentro da largura do video
@@ -170,7 +247,7 @@ def baixar_video(item, pasta):
         textos.append(f"drawtext=fontfile={FONTE}:text='{linha}':fontsize={tam}:fontcolor=white:box=1:"
                       f"boxcolor=0xE91E63@0.92:boxborderw=18:x=(w-text_w)/2:y={y}")
         y += tam + 40
-    base = ["-loop", "1", "-i", foto, "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", "20"]
+    base = ["-loop", "1", "-i", foto, "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", f"{total:.2f}"]
     fim = ["-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", "-movflags", "+faststart", saida]
     try:
         ffmpeg(*base, "-vf", ",".join([zoom] + textos), *fim)
@@ -219,21 +296,14 @@ def narracao(item, numero, pasta):
     return saida
 
 
-def com_audio(video, veio_da_foto, item, numero, pasta):
+def com_audio(video, veio_da_foto, voz, total_foto, pasta):
     """Coloca narracao (voz) + musica de fundo (se houver arquivos em musicas/) no video."""
     saida = os.path.join(pasta, "reel.mp4")
-    voz = narracao(item, numero, pasta) if os.environ.get("NARRACAO", "sim") != "nao" else None
     musicas = [os.path.join(MUSICAS, m) for m in os.listdir(MUSICAS)
                if m.lower().endswith((".mp3", ".m4a", ".wav"))] if os.path.isdir(MUSICAS) else []
     musica = random.choice(musicas) if musicas else None
-    if veio_da_foto:
-        total = max(8.0, (duracao(voz) + 2.0) if voz else 10.0)
-    else:
-        total = duracao(video) or 30.0
+    total = total_foto if veio_da_foto else (duracao(video) or 30.0)
     if not voz and not musica:
-        if veio_da_foto:
-            ffmpeg("-i", video, "-t", f"{total:.2f}", "-c", "copy", saida)
-            return saida
         return video
     entradas, mistura, n = ["-i", video], [], 1
     if voz:
@@ -258,8 +328,11 @@ def com_audio(video, veio_da_foto, item, numero, pasta):
 
 
 def preparar_video(item, numero, pasta):
-    video, veio_da_foto = baixar_video(item, pasta)
-    return com_audio(video, veio_da_foto, item, numero, pasta)
+    # a narracao vem primeiro: o video feito com a foto dura o tempo da fala + a tela final
+    voz = narracao(item, numero, pasta) if os.environ.get("NARRACAO", "sim") != "nao" else None
+    total = max(9.0, duracao(voz) + 4.0) if voz else 12.0
+    video, veio_da_foto = baixar_video(item, pasta, numero, total)
+    return com_audio(video, veio_da_foto, voz, total, pasta)
 
 
 # ---------- Instagram ----------
