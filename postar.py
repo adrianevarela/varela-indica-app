@@ -42,13 +42,8 @@ SITE = os.environ.get("SITE_URL", "")  # endereco da pagina link na bio
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 TG_CHAT = os.environ.get("TELEGRAM_CHAT_ID", "-1003821123476")  # grupo "Varela Indica"
 
-HASHTAGS_GERAIS = "#achadinhos #promoção #ofertas #achadosdodia #viralnotiktok #varelaindica #comprasonline"
-HASHTAGS_LOJA = {
-    "Shopee": "#achadinhosshopee #shopee #shopeebrasil #achadosshopee",
-    "Shein": "#shein #achadinhosshein #sheinbrasil #modafeminina",
-    "Amazon": "#amazon #achadinhosamazon #amazonbrasil",
-}
-HASHTAGS_ML = "#achadinhosmercadolivre #mercadolivre #achadosmercadolivre"
+HASHTAGS_GERAIS = ("#achadinhos #achadosdodia #promoção #ofertas #ofertasdodia #viralnotiktok #comprasonline "
+                   "#dicasdecompras #precobaixo #varelaindica")
 
 
 def log(msg):
@@ -104,7 +99,7 @@ def legenda_de(item, numero, facebook=False):
         "💬 Comenta EU QUERO que te mando o link!\n"
         "📲 Entra no nosso grupo do Telegram (link na bio) pra receber os achadinhos primeiro.\n\n"
         "⚠️ Preço pode mudar a qualquer momento.\n\n"
-        f"{item.get('hashtags') or HASHTAGS_GERAIS + ' ' + HASHTAGS_LOJA.get(item.get('loja'), HASHTAGS_ML)}"
+        f"{item.get('hashtags') or HASHTAGS_GERAIS}"
     )
 
 
@@ -271,9 +266,7 @@ def roteiro(item, numero):
     texto = item.get("texto", "")
     antes = re.search(r"<s>(R\$\s?[\d.,]+)</s>", texto)
     desconto = re.search(r"\(-(\d+)%\)", texto)
-    loja = item.get("loja") or "Mercado Livre"
-    partes = [f"Olha esse achadinho {'da' if loja == 'Shopee' else 'do' if loja == 'Mercado Livre' else 'da'} {loja}!",
-              f"{item['produto']}."]
+    partes = ["Olha esse achadinho!", f"{item['produto']}."]
     agora = reais_falado(preco_de(item))
     if antes and agora:
         partes.append(f"De {reais_falado(antes.group(1))} por apenas {agora}!")
@@ -476,7 +469,7 @@ def gerar_pagina(estado):
             f'<a class="card" href="{html.escape(p["link"])}" target="_blank" rel="noopener">'
             f'<span class="num">nº {p["numero"]}</span>{foto}'
             f'<span class="nome">{html.escape(p["produto"])}</span>'
-            f'<span class="loja">{html.escape(p.get("loja") or "Mercado Livre")}</span>'
+
             f'<span class="preco">{html.escape(p.get("preco", ""))}</span>'
             f'<span class="btn">🛒 Quero o meu</span></a>')
     modelo = open(os.path.join(PASTA, "modelo_pagina.html"), encoding="utf-8").read()
