@@ -6,10 +6,11 @@ on:
     - cron: "0 9 * * *"
   workflow_dispatch:
     inputs:
-      simular:
-        description: "So mostrar o que escolheria"
-        type: boolean
-        default: true
+      modo:
+        description: "simular = so mostra o que escolheria; completar = preenche a fila; campos = mostra o que a API da Shopee informa"
+        type: choice
+        options: [simular, completar, campos]
+        default: simular
 
 permissions:
   contents: write
@@ -27,7 +28,12 @@ jobs:
         env:
           SHOPEE_APP_ID: ${{ secrets.SHOPEE_APP_ID }}
           SHOPEE_SECRET: ${{ secrets.SHOPEE_SECRET }}
-        run: python buscar_shopee.py ${{ inputs.simular && '--simular' || '' }}
+        run: |
+          case "${{ inputs.modo }}" in
+            simular) python buscar_shopee.py --simular ;;
+            campos)  python buscar_shopee.py --campos ;;
+            *)       python buscar_shopee.py ;;
+          esac
       - name: Guardar a fila
         run: |
           git config user.name "varela-indica-bot"
