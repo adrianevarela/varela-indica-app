@@ -39,18 +39,63 @@
   .links { display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; }
   .links a { background:var(--card); padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:600; box-shadow:0 1px 6px rgb(0 0 0/.06); }
   .vazio { color:var(--suave); padding:12px; }
+  /* abas */
+  .abas { display:flex; gap:6px; margin:0 0 16px; background:var(--card); padding:4px; border-radius:12px; box-shadow:0 1px 6px rgb(0 0 0/.06); }
+  .abas button { flex:1; border:0; background:none; color:var(--texto); font:600 .95rem system-ui,sans-serif; padding:9px; border-radius:9px; cursor:pointer; }
+  .abas button[aria-selected="true"] { background:var(--rosa); color:#fff; }
+  /* ganhos */
+  :root { --barra:#e91e63; --grade:#f1dde5; --ok:#1b8a4b; --pend:#b45309; --canc:#b42318; }
+  @media (prefers-color-scheme: dark) { :root { --barra:#f06292; --grade:#3d2c33; --ok:#4ade80; --pend:#fbbf24; --canc:#f87171; } }
+  .senha { background:var(--card); border-radius:14px; padding:18px; box-shadow:0 1px 6px rgb(0 0 0/.06); max-width:420px; }
+  .senha input[type=password] { width:100%; font-size:1rem; padding:10px 12px; border-radius:10px; border:1px solid var(--linha); background:var(--fundo); color:var(--texto); margin:8px 0; }
+  .senha button, .btn-sair { background:var(--rosa); color:#fff; border:0; border-radius:10px; padding:10px 16px; font-weight:600; font-size:.95rem; cursor:pointer; }
+  .btn-sair { background:var(--card); color:var(--texto); box-shadow:0 1px 6px rgb(0 0 0/.06); padding:6px 12px; font-size:.82rem; }
+  .erro { color:var(--canc); font-weight:600; min-height:1.2em; }
+  .lembrar { display:flex; gap:6px; align-items:center; color:var(--suave); font-size:.85rem; margin-bottom:10px; }
+  .cartao { background:var(--card); border-radius:14px; padding:14px; box-shadow:0 1px 6px rgb(0 0 0/.06); }
+  .status { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+  .status .cartao b { display:block; font-size:1.25rem; font-variant-numeric:tabular-nums; }
+  .status .cartao span { font-size:.85rem; color:var(--suave); }
+  .st-ok { border-left:4px solid var(--ok); } .st-pend { border-left:4px solid var(--pend); } .st-canc { border-left:4px solid var(--canc); }
+  .grafico { position:relative; }
+  .grafico svg { width:100%; height:200px; display:block; }
+  .grafico .dica { position:absolute; pointer-events:none; background:var(--texto); color:var(--fundo); font-size:.8rem; padding:5px 8px; border-radius:8px; white-space:nowrap; transform:translate(-50%,-110%); display:none; font-variant-numeric:tabular-nums; }
+  .barras-h .linha { display:grid; grid-template-columns:1fr auto; gap:4px 10px; margin-bottom:10px; font-size:.9rem; }
+  .barras-h .trilho { grid-column:1 / -1; height:8px; background:var(--grade); border-radius:4px; overflow:hidden; }
+  .barras-h .trilho i { display:block; height:100%; background:var(--barra); border-radius:4px; }
+  .valor { font-variant-numeric:tabular-nums; font-weight:600; }
+  .pill { font-size:.72rem; font-weight:700; padding:1px 8px; border-radius:999px; }
+  .pill.ok { color:var(--ok); border:1px solid var(--ok); } .pill.pend { color:var(--pend); border:1px solid var(--pend); } .pill.canc { color:var(--canc); border:1px solid var(--canc); }
+  .topo-ganhos { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>📊 Painel Varela Indica</h1>
   <p class="sub" id="atualizado">Carregando…</p>
+  <div class="abas" role="tablist">
+    <button role="tab" id="tab-posts" aria-selected="true" onclick="mostrarAba('posts')">📬 Posts</button>
+    <button role="tab" id="tab-ganhos" aria-selected="false" onclick="mostrarAba('ganhos')">💰 Ganhos</button>
+  </div>
+  <section id="aba-posts">
   <div class="aviso" id="aviso"></div>
   <div class="kpis" id="kpis"></div>
   <h2>⏭️ Próximos posts</h2>
   <div class="lista" id="proximos"></div>
   <h2>✅ Já postados</h2>
   <div class="lista" id="postados"></div>
+  </section>
+  <section id="aba-ganhos" hidden>
+    <form class="senha" id="form-senha" onsubmit="event.preventDefault(); abrirGanhos(this.senha.value, this.lembrar.checked)">
+      <div class="nome">🔒 Ganhos protegidos</div>
+      <div class="meta">Digite a senha que você salvou no GitHub (PAINEL_SENHA).</div>
+      <input type="password" name="senha" autocomplete="current-password" placeholder="Senha" required>
+      <label class="lembrar"><input type="checkbox" name="lembrar"> Lembrar neste aparelho</label>
+      <button type="submit">Abrir</button>
+      <div class="erro" id="erro-senha"></div>
+    </form>
+    <div id="ganhos" hidden></div>
+  </section>
   <div class="links">
     <a href="https://github.com/adrianevarela/varela-indica-app/actions" target="_blank" rel="noopener">⚙️ Execuções (verde/vermelho)</a>
     <a href="./" target="_blank" rel="noopener">🛒 Página link na bio</a>
@@ -114,6 +159,181 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catc
 // ao voltar para o app, atualiza os dados
 document.addEventListener("visibilitychange", () => { if (!document.hidden) carregar().catch(() => {}); });
 carregar().catch(e => { document.getElementById("atualizado").textContent = "Não consegui carregar os dados (" + e.message + "). Tente recarregar."; });
+</script>
+<script>
+// ---------- aba Ganhos (dados criptografados; so abrem com a senha) ----------
+const CHAVE_SENHA = "vi-painel-senha";
+const guardar = { ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                  salvar(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const R$ = v => (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const diaBR = d => d.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+const chaveDia = d => d.toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" }); // AAAA-MM-DD
+
+function mostrarAba(nome) {
+  for (const n of ["posts", "ganhos"]) {
+    document.getElementById("aba-" + n).hidden = n !== nome;
+    document.getElementById("tab-" + n).setAttribute("aria-selected", n === nome);
+  }
+  guardar.salvar("vi-aba", nome);
+  if (nome === "ganhos") { const s = guardar.ler(CHAVE_SENHA); if (s && document.getElementById("ganhos").hidden) abrirGanhos(s, true); }
+}
+
+async function decifrar(pacote, senha) {
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveKey"]);
+  const chave = await crypto.subtle.deriveKey({ name: "PBKDF2", hash: "SHA-256", salt: b64(pacote.sal), iterations: pacote.iter },
+                                              base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const texto = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(pacote.iv) }, chave, b64(pacote.dados));
+  return JSON.parse(new TextDecoder().decode(texto));
+}
+
+function situacao(s) {
+  s = String(s || "").toLowerCase();
+  if (/cancel|invalid|fraud|refund|reemb|devol|fail/.test(s)) return "canc";
+  if (/complet|conclu|paid|valid|settled/.test(s)) return "ok";
+  return "pend";
+}
+const NOME_SIT = { ok: "✅ Concluída", pend: "⏳ Pendente", canc: "✖ Cancelada" };
+const NOME_CANAL = { tg: "Telegram", bio: "Link na bio (Instagram/Facebook)", "": "Sem etiqueta (links antigos)" };
+const ganho = c => c.comissao || c.estimada || c.itens.reduce((a, i) => a + (i.comissao || 0), 0);
+
+async function abrirGanhos(senha, lembrar) {
+  const erro = document.getElementById("erro-senha");
+  erro.textContent = "Abrindo…";
+  let pacote;
+  try { pacote = await fetch("ganhos.enc.json?t=" + Date.now()).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  catch (e) { erro.textContent = "Os ganhos ainda não foram gerados. Rode o robô \"Atualizar ganhos da Shopee\" no GitHub."; return; }
+  let dados;
+  try { dados = await decifrar(pacote, senha); }
+  catch (e) { erro.textContent = "Senha incorreta."; guardar.salvar(CHAVE_SENHA, null); return; }
+  erro.textContent = "";
+  guardar.salvar(CHAVE_SENHA, lembrar ? senha : null);
+  document.getElementById("form-senha").hidden = true;
+  const caixa = document.getElementById("ganhos");
+  caixa.hidden = false;
+  desenharGanhos(caixa, dados);
+}
+
+function sair() {
+  guardar.salvar(CHAVE_SENHA, null);
+  document.getElementById("ganhos").hidden = true;
+  document.getElementById("ganhos").innerHTML = "";
+  const f = document.getElementById("form-senha"); f.hidden = false; f.reset();
+}
+
+function desenharGanhos(caixa, dados) {
+  const conv = (dados.conversoes || []).map(c => Object.assign(c, { quando: new Date((c.compra || 0) * 1000), sit: situacao(c.status || (c.itens[0] || {}).status) }));
+  const validas = conv.filter(c => c.sit !== "canc");
+  const agora = new Date(), hoje = chaveDia(agora), mes = hoje.slice(0, 7);
+  const ha7 = new Date(agora - 7 * 864e5);
+  const soma = l => l.reduce((a, c) => a + ganho(c), 0);
+  const doMes = validas.filter(c => chaveDia(c.quando).startsWith(mes));
+  const vendidoMes = doMes.reduce((a, c) => a + c.itens.reduce((b, i) => b + (i.pago || 0) - (i.reembolso || 0), 0), 0);
+
+  // por situacao (90 dias)
+  const porSit = { ok: 0, pend: 0, canc: 0 }, qtdSit = { ok: 0, pend: 0, canc: 0 };
+  conv.forEach(c => { porSit[c.sit] += ganho(c); qtdSit[c.sit]++; });
+
+  // por dia (30 dias)
+  const dias = [];
+  for (let i = 29; i >= 0; i--) { const d = new Date(agora - i * 864e5); dias.push({ k: chaveDia(d), d, v: 0, n: 0 }); }
+  const idx = Object.fromEntries(dias.map((d, i) => [d.k, i]));
+  validas.forEach(c => { const i = idx[chaveDia(c.quando)]; if (i != null) { dias[i].v += ganho(c); dias[i].n++; } });
+
+  // produtos e categorias (90 dias, sem canceladas)
+  const prod = {}, cat = {}, canal = {}, cliente = {};
+  validas.forEach(c => {
+    c.itens.forEach(i => {
+      const p = prod[i.id || i.nome] ||= { nome: i.nome, foto: i.foto, qtd: 0, v: 0 };
+      p.qtd += i.qtd || 1; p.v += i.comissao || 0;
+      const k = i.categoria || "Outros"; cat[k] = (cat[k] || 0) + (i.comissao || 0);
+    });
+    const ch = NOME_CANAL[c.canal] ? c.canal : (c.canal || "");
+    (canal[ch] ||= { v: 0, n: 0 }).v += ganho(c); canal[ch].n++;
+    const cl = /new|novo/i.test(c.cliente) ? "novos" : "recorrentes"; cliente[cl] = (cliente[cl] || 0) + 1;
+  });
+  const topProd = Object.values(prod).sort((a, b) => b.v - a.v).slice(0, 8);
+  const topCat = Object.entries(cat).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const maxCat = topCat.length ? topCat[0][1] : 1;
+  const canais = Object.entries(canal).sort((a, b) => b[1].v - a[1].v);
+
+  caixa.innerHTML = `
+    <div class="topo-ganhos"><div class="meta">Dados da Shopee · atualizado ${fmt(new Date(dados.gerado))} · últimos ${dados.dias} dias</div>
+      <button class="btn-sair" onclick="sair()">🔒 Fechar</button></div>
+    <div class="kpis">
+      ${[[R$(soma(validas.filter(c => chaveDia(c.quando) === hoje))), "ganhos hoje"],
+         [R$(soma(validas.filter(c => c.quando >= ha7))), "últimos 7 dias"],
+         [R$(soma(doMes)), "este mês"],
+         [doMes.length, "pedidos no mês"],
+         [R$(vendidoMes), "vendido pelos seus links (mês)"],
+         [doMes.length ? R$(soma(doMes) / doMes.length) : "—", "comissão média por pedido"]]
+        .map(([v, t]) => `<div class="kpi"><b>${v}</b><span>${t}</span></div>`).join("")}
+    </div>
+    <h2>💳 Situação das comissões (90 dias)</h2>
+    <div class="status">
+      <div class="cartao st-pend"><b>${R$(porSit.pend)}</b><span>⏳ Pendente · ${qtdSit.pend} pedidos<br>aguardando entrega/confirmação</span></div>
+      <div class="cartao st-ok"><b>${R$(porSit.ok)}</b><span>✅ Concluída · ${qtdSit.ok} pedidos<br>confirmada pela Shopee</span></div>
+      <div class="cartao st-canc"><b>${R$(porSit.canc)}</b><span>✖ Cancelada · ${qtdSit.canc} pedidos<br>não será paga</span></div>
+    </div>
+    <h2>📈 Ganhos por dia (30 dias)</h2>
+    <div class="cartao grafico" id="grafico"></div>
+    <h2>🏆 Produtos que mais renderam</h2>
+    <div class="lista">${topProd.map((p, i) => `<div class="item">
+        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : "<span></span>"}
+        <div><div class="nome">${i + 1}. ${esc(p.nome)}</div><div class="meta">${p.qtd} vendido${p.qtd === 1 ? "" : "s"}</div></div>
+        <div class="dir valor">${R$(p.v)}</div></div>`).join("") || `<div class="vazio">Nenhuma venda ainda.</div>`}</div>
+    <h2>🗂️ Categorias</h2>
+    <div class="cartao barras-h">${topCat.map(([n, v]) => `<div class="linha"><span>${esc(n)}</span><span class="valor">${R$(v)}</span>
+        <div class="trilho"><i style="width:${Math.max(2, v / maxCat * 100)}%"></i></div></div>`).join("") || `<div class="vazio">—</div>`}</div>
+    <h2>📣 De onde vieram as vendas</h2>
+    <div class="status">${canais.map(([k, c]) => `<div class="cartao"><b>${R$(c.v)}</b><span>${esc(NOME_CANAL[k] || k)} · ${c.n} pedido${c.n === 1 ? "" : "s"}</span></div>`).join("") || `<div class="vazio">—</div>`}</div>
+    <p class="meta">Clientes: ${cliente.novos || 0} novos na Shopee · ${cliente.recorrentes || 0} que já compravam.</p>
+    <h2>🧾 Últimos pedidos</h2>
+    <div class="lista">${conv.slice(0, 20).map(c => { const i = c.itens[0] || {}; return `<div class="item">
+        ${i.foto ? `<img src="${esc(i.foto)}" alt="" loading="lazy">` : "<span></span>"}
+        <div><div class="nome">${esc(i.nome || "Pedido")}${c.itens.length > 1 ? ` <span class="tag">+${c.itens.length - 1} itens</span>` : ""}</div>
+          <div class="meta">${fmt(c.quando)} · ${R$(c.itens.reduce((a, x) => a + (x.pago || 0), 0))} · <span class="pill ${c.sit}">${NOME_SIT[c.sit]}</span></div></div>
+        <div class="dir valor">${R$(ganho(c))}</div></div>`; }).join("") || `<div class="vazio">Nenhuma venda nos últimos ${dados.dias} dias.</div>`}</div>`;
+  desenharGrafico(document.getElementById("grafico"), dias);
+}
+
+function desenharGrafico(el, dias) {
+  const L = 600, A = 200, m = { e: 44, d: 8, t: 12, b: 24 };
+  const max = Math.max(1, ...dias.map(d => d.v));
+  const passo = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000].find(p => max / p <= 4) || 1000;
+  const topo = Math.ceil(max / passo) * passo;
+  const w = (L - m.e - m.d) / dias.length, y = v => A - m.b - (v / topo) * (A - m.b - m.t);
+  let svg = `<svg viewBox="0 0 ${L} ${A}" preserveAspectRatio="none" role="img" aria-label="Ganhos por dia nos últimos 30 dias">`;
+  for (let v = 0; v <= topo; v += passo)
+    svg += `<line x1="${m.e}" x2="${L - m.d}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grade)" stroke-width="1"/>
+            <text x="${m.e - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--suave)">${v.toLocaleString("pt-BR")}</text>`;
+  dias.forEach((d, i) => {
+    const x = m.e + i * w, h = A - m.b - y(d.v);
+    if (d.v > 0) {
+      const bw = Math.max(2, w - 2), r = Math.min(4, bw / 2, h);
+      svg += `<path d="M${x + 1},${A - m.b} V${y(d.v) + r} q0,-${r} ${r},-${r} H${x + 1 + bw - r} q${r},0 ${r},${r} V${A - m.b} Z" fill="var(--barra)"/>`;
+    }
+    svg += `<rect class="alvo" data-i="${i}" x="${x}" y="${m.t}" width="${w}" height="${A - m.t - m.b}" fill="transparent"/>`;
+    if (i % 7 === 0 || i === dias.length - 1)
+      svg += `<text x="${x + w / 2}" y="${A - 6}" text-anchor="middle" font-size="11" fill="var(--suave)">${d.d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" })}</text>`;
+  });
+  svg += `<line x1="${m.e}" x2="${L - m.d}" y1="${A - m.b}" y2="${A - m.b}" stroke="var(--suave)" stroke-width="1"/></svg>`;
+  el.innerHTML = svg + `<div class="dica"></div>`;
+  const dica = el.querySelector(".dica");
+  el.querySelectorAll(".alvo").forEach(r => {
+    const mostrar = ev => {
+      const d = dias[+r.dataset.i], caixa = el.getBoundingClientRect(), alvo = r.getBoundingClientRect();
+      dica.innerHTML = `<b>${d.d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" })}</b> · ${R$(d.v)} · ${d.n} pedido${d.n === 1 ? "" : "s"}`;
+      dica.style.left = Math.min(Math.max(alvo.left - caixa.left + alvo.width / 2, 80), caixa.width - 80) + "px";
+      dica.style.top = (alvo.top - caixa.top + 30) + "px";
+      dica.style.display = "block";
+    };
+    r.addEventListener("mouseenter", mostrar); r.addEventListener("click", mostrar);
+    r.addEventListener("mouseleave", () => dica.style.display = "none");
+  });
+}
+
+if (guardar.ler("vi-aba") === "ganhos") mostrarAba("ganhos");
 </script>
 </body>
 </html>
