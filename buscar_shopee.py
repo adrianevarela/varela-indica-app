@@ -11,6 +11,7 @@ Uso:
 import hashlib
 import html
 import json
+import math
 import os
 import random
 import re
@@ -75,9 +76,26 @@ def aprovado(p, usados):
 
 BUSCA = """query($kw:String,$page:Int,$limit:Int,$sort:Int){
   productOfferV2(keyword:$kw,page:$page,limit:$limit,sortType:$sort){
-    nodes{ itemId productName priceMin priceMax priceDiscountRate sales ratingStar imageUrl offerLink shopName }
+    nodes{ itemId productName priceMin priceMax priceDiscountRate sales ratingStar imageUrl offerLink shopName commissionRate commission }
   }
 }"""
+
+
+def numero(valor):
+    try:
+        return float(valor or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def comissao_rs(p):
+    """Quanto voce ganha por venda, em reais."""
+    return numero(p.get("commission")) or numero(p.get("priceMin")) * numero(p.get("commissionRate"))
+
+
+def pontuacao(p):
+    # comissao em reais x popularidade (log das vendas, para nao so ganhar quem vende muito) x desconto
+    return (comissao_rs(p) + 0.5) * math.log10(max(10, int(p.get("sales") or 0))) * (1 + int(p.get("priceDiscountRate") or 0) / 200)
 
 
 def reais(valor):
@@ -114,7 +132,7 @@ def virar_item(p, quando):
                    else f"💰 Por <b>{reais(preco)}</b>")
     curto = nome_curto(p["productName"])
     return {
-        "quando": quando, "produto": curto, "loja": "Shopee", "itemId": str(p["itemId"]),
+        "quando": quando, "produto": curto, "loja": "Shopee", "itemId": str(p["itemId"]), "comissao": round(comissao_rs(p), 2),
         "foto": p.get("imageUrl", ""), "video": "", "link": p["offerLink"], "preco": reais(preco),
         "texto": (f"🧡 <b>Achadinho da Shopee: {html.escape(curto)}</b>\n\n{html.escape(p['productName'][:160])}\n\n"
                   f"{linha_preco}\n⭐ {nota} · {vendas_txt}"),
@@ -166,11 +184,12 @@ def main():
                 log(f"  busca '{tema}' falhou: {e}")
                 continue
             bons = [p for p in nodes if aprovado(p, usados)]
-            # prioriza mais vendas, com um bonus para desconto maior
-            bons.sort(key=lambda p: int(p.get("sales") or 0) * (1 + int(p.get("priceDiscountRate") or 0) / 100), reverse=True)
+            # prioriza quem paga mais comissao por venda, pesando tambem popularidade e desconto
+            bons.sort(key=pontuacao, reverse=True)
             if bons:
                 escolhido = bons[0]
-                log(f"{quando:%d/%m %Hh}: {nome_curto(escolhido['productName'])} ({tema})")
+                log(f"{quando:%d/%m %Hh}: {nome_curto(escolhido['productName'])} ({tema}) - comissao "
+                    f"{comissao_rs(escolhido):.2f} reais ({numero(escolhido.get('commissionRate')) * 100:.0f}%)")
         if not escolhido:
             log("Acabaram os temas sem produto bom; o resto fica para amanha.")
             break
