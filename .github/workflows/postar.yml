@@ -9,12 +9,12 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: "simular = so mostra; teste = posta agora o item escolhido"
+        description: "simular = so mostra legendas; video = so monta o video para baixar e ouvir; teste = posta agora o item escolhido"
         type: choice
-        options: [simular, normal, teste]
+        options: [simular, video, normal, teste]
         default: simular
       item:
-        description: "Numero do item da fila (so para o modo teste)"
+        description: "Numero do item da fila (modos video e teste)"
         default: "1"
 
 permissions:
@@ -31,7 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Instalar ffmpeg
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
+          pip install -q edge-tts
       - name: Postar
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
@@ -43,10 +45,18 @@ jobs:
         run: |
           case "${{ inputs.modo }}" in
             simular) python postar.py --simular ;;
+            video)   python postar.py --video "${{ inputs.item }}" ;;
             teste)   python postar.py --teste "${{ inputs.item }}" ;;
             *)       python postar.py ;;
           esac
+      - name: Previa para baixar (modo video)
+        if: ${{ inputs.modo == 'video' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: previa-video
+          path: previa/
       - name: Guardar o que foi postado
+        if: ${{ inputs.modo != 'video' }}
         run: |
           git config user.name "varela-indica-bot"
           git config user.email "bot@users.noreply.github.com"
