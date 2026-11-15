@@ -15,6 +15,7 @@ jobs:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
+          if [ -z "$IG_TOKEN" ]; then echo "Usando o token da Pagina do Facebook, que nao vence. Nada a renovar."; exit 0; fi
           novo=$(curl -sf "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=$IG_TOKEN" | jq -r .access_token)
           if [ -z "$novo" ] || [ "$novo" = "null" ]; then echo "::error::Nao consegui renovar o token. Gere um novo (veja o LEIA-ME)."; exit 1; fi
           echo "::add-mask::$novo"
