@@ -145,9 +145,14 @@ def main():
     if not (APP_ID and SEGREDO):
         sys.exit("Faltam os segredos SHOPEE_APP_ID e SHOPEE_SECRET (veja o LEIA-ME).")
     if "--campos" in sys.argv:  # pergunta a propria API quais informacoes ela da sobre os produtos
-        tipos = consultar("{__schema{types{name fields{name}}}}", {})["__schema"]["types"]
-        for t in tipos:
-            if t.get("fields") and ("Product" in t["name"] or "Offer" in t["name"] or "Video" in t["name"]):
+        esquema = consultar("{__schema{queryType{fields{name args{name}}} mutationType{fields{name args{name}}}"
+                            " types{name fields{name}}}}", {})["__schema"]
+        for tipo in ("queryType", "mutationType"):
+            for f in (esquema.get(tipo) or {}).get("fields") or []:
+                log(f"[{tipo}] {f['name']}({', '.join(a['name'] for a in f.get('args') or [])})")
+        chaves = ("Product", "Offer", "Video", "Report", "Conversion", "Order", "Click", "Commission", "Validat", "Item")
+        for t in esquema["types"]:
+            if t.get("fields") and not t["name"].startswith("__") and any(k in t["name"] for k in chaves):
                 nomes = [f["name"] for f in t["fields"]]
                 log(f"{t['name']}: {', '.join(nomes)}")
                 if any("video" in n.lower() for n in nomes):
