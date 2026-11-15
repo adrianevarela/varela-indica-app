@@ -1,0 +1,10 @@
+Coloque nesta pasta musicas de fundo em .mp3 (ou .m4a / .wav).
+A cada post o app sorteia uma e toca baixinho por baixo da narracao.
+
+IMPORTANTE: use so musicas livres de direitos autorais, senao o Instagram/Facebook pode tirar o som
+ou derrubar o video. Fontes gratis e seguras:
+  - Biblioteca de audio do YouTube (studio.youtube.com > Biblioteca de audio), filtro "Sem atribuicao"
+  - pixabay.com/music
+
+Como colocar: no GitHub, abra a pasta "musicas" > Add file > Upload files > arraste os .mp3 > Commit changes.
+Sem musicas aqui, o video sai so com a narracao.
