@@ -199,12 +199,27 @@ def postar_story_foto(url_foto):
     return esperar_e_publicar(container)
 
 
+def video_story(video, numero):
+    """O Instagram nao deixa app colocar figurinha de link: escreve no video onde achar o link."""
+    saida = os.path.join(os.path.dirname(video), "story.mp4")
+    fonte = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    faixa = (f"drawtext=fontfile={fonte}:text='LINK NA BIO  ·  produto nº {numero}':fontsize=58:fontcolor=white:"
+             "box=1:boxcolor=0xE91E63@0.92:boxborderw=28:x=(w-text_w)/2:y=230")
+    try:
+        ffmpeg("-i", video, "-vf", faixa, "-t", "60", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+               "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", saida)
+        return saida
+    except RuntimeError as e:
+        log(f"  nao consegui escrever no story ({e}); vai sem a faixa")
+        return video
+
+
 def postar(item, numero, video):
     reel = postar_video("REELS", video, legenda_de(item, numero))
     log(f"  Reels publicado no Instagram (id {reel})")
     story = None
     try:
-        story = postar_video("STORIES", video)
+        story = postar_video("STORIES", video_story(video, numero))
     except RuntimeError as e:
         log(f"  story em video falhou ({e}); tentando com a foto")
         try:
