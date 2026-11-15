@@ -66,6 +66,28 @@
   .valor { font-variant-numeric:tabular-nums; font-weight:600; }
   .pill { font-size:.72rem; font-weight:700; padding:1px 8px; border-radius:999px; white-space:nowrap; }
   .pill.ok { color:var(--ok); border:1px solid var(--ok); } .pill.pend { color:var(--pend); border:1px solid var(--pend); } .pill.canc { color:var(--canc); border:1px solid var(--canc); }
+  /* posts: alertas, proximo, calendario, cartoes de post */
+  .alerta { background:var(--alerta-fundo); color:var(--alerta); border-radius:12px; padding:9px 14px; margin-bottom:8px; font-weight:600; font-size:.9rem; }
+  .proximo { background:var(--rosa); color:#fff; border-radius:14px; padding:12px 14px; margin-bottom:14px; font-weight:600; display:flex; gap:12px; align-items:center; }
+  .proximo img { width:44px; height:44px; border-radius:8px; object-fit:contain; background:#fff; }
+  .proximo small { display:block; font-weight:500; opacity:.9; }
+  .calendario { display:grid; grid-template-columns:44px repeat(7, minmax(0,1fr)); gap:4px; font-size:.72rem; overflow-x:auto; }
+  .calendario .cab { text-align:center; color:var(--suave); font-weight:700; padding-bottom:2px; }
+  .calendario .cab.hj { color:var(--rosa); }
+  .calendario .hora { color:var(--suave); font-weight:700; align-self:center; }
+  .calendario .slot { aspect-ratio:1; border-radius:8px; background:var(--fundo); display:grid; place-items:center; overflow:hidden; position:relative; border:1px solid var(--linha); }
+  .calendario .slot img { width:100%; height:100%; object-fit:contain; background:#fff; }
+  .calendario .slot.vazio-slot { border:1px dashed var(--alerta); color:var(--alerta); font-weight:700; }
+  .calendario .slot .ok { position:absolute; right:2px; bottom:2px; background:var(--ok); color:#fff; border-radius:999px; font-size:.6rem; padding:0 4px; }
+  .post { background:var(--card); border-radius:14px; padding:10px; box-shadow:0 1px 6px rgb(0 0 0/.06); display:grid; grid-template-columns:72px 1fr; gap:12px; }
+  .post .capa { width:72px; height:128px; object-fit:cover; border-radius:10px; background:var(--linha); }
+  .post .icones { display:flex; flex-wrap:wrap; gap:4px; margin:4px 0; }
+  .post .icones span { font-size:.72rem; padding:1px 7px; border-radius:999px; border:1px solid var(--linha); }
+  .post .icones .sim { border-color:var(--ok); color:var(--ok); } .post .icones .nao { border-color:var(--canc); color:var(--canc); }
+  .post .nums { display:flex; flex-wrap:wrap; gap:4px 12px; font-size:.82rem; font-variant-numeric:tabular-nums; margin:4px 0; }
+  .post .botoes { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .post .botoes a { font-size:.78rem; font-weight:600; text-decoration:none; padding:4px 10px; border-radius:8px; background:var(--fundo); border:1px solid var(--linha); color:var(--texto); }
+  .delta { font-size:.8rem; font-weight:600; } .delta.up { color:var(--ok); } .delta.down { color:var(--canc); }
   .topo-ganhos { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
 </style>
 </head>
@@ -78,8 +100,17 @@
     <button role="tab" id="tab-ganhos" aria-selected="false" onclick="mostrarAba('ganhos')">💰 Ganhos</button>
   </div>
   <section id="aba-posts">
-  <div class="aviso" id="aviso"></div>
+  <div id="alertas"></div>
+  <div class="proximo" id="proximo-post"></div>
   <div class="kpis" id="kpis"></div>
+  <h2>📅 Calendário</h2>
+  <div class="cartao calendario" id="calendario"></div>
+  <h2>📈 Seguidores (30 dias)</h2>
+  <div class="cartao grafico" id="grafico-seguidores"></div>
+  <h2>🏆 Posts com mais visualizações</h2>
+  <div class="lista" id="ranking"></div>
+  <h2>🕐 Melhor horário</h2>
+  <div class="cartao barras-h" id="horarios"></div>
   <h2>⏭️ Próximos posts</h2>
   <div class="lista" id="proximos"></div>
   <h2>✅ Já postados</h2>
@@ -110,6 +141,11 @@ const desconto = t => (String(t || "").match(/\(-(\d+)%\)/) || [])[1];
 const quando = q => new Date(q.replace(" ", "T") + ":00-03:00");
 const fmt = d => d.toLocaleString("pt-BR", { weekday:"short", day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit", timeZone:"America/Sao_Paulo" });
 
+const num = v => v == null ? "—" : Number(v).toLocaleString("pt-BR");
+const chaveDiaP = d => d.toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" });
+const horaBR = d => +d.toLocaleString("pt-BR", { hour: "2-digit", hour12: false, timeZone: "America/Sao_Paulo" });
+let DADOS = { fila: [], estado: {}, metricas: {} };  // usados tambem pela aba Ganhos
+
 function linha(p, extra) {
   const d = desconto(p.texto);
   return `<a class="item ${extra.cls || ""}" href="${esc(p.link)}" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
@@ -121,41 +157,157 @@ function linha(p, extra) {
       ${p.comissao ? `<div class="com">+${brl(p.comissao)}/venda</div>` : ""}</div></a>`;
 }
 
+function cartaoPost(p, m, feitos) {
+  const it = p.item || {};
+  const tg = feitos.has("tg | " + p.chave);
+  const icone = (ok, txt) => `<span class="${ok ? "sim" : "nao"}">${ok ? "✓" : "✗"} ${txt}</span>`;
+  const nums = [["👁", m.views, "visualizações"], ["❤", m.curtidas, "curtidas"], ["💬", m.comentarios, "comentários"],
+                ["🔖", m.salvos, "salvos"], ["↗", m.compartilhamentos, "compartilhamentos"], ["👥", m.alcance, "alcance"]]
+    .filter(([, v]) => v != null).map(([i, v, t]) => `<span title="${t}">${i} ${num(v)}</span>`).join("");
+  return `<div class="post">
+    <img class="capa" src="${esc(m.capa || p.foto || it.foto || "")}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+    <div><div class="nome">nº ${p.numero} · ${esc(p.produto)}</div>
+      <div class="meta">${fmt(new Date(p.em))} · ${esc(p.preco || "")} <span class="tag">${esc(p.loja || "Mercado Livre")}</span></div>
+      <div class="icones">${icone(p.reel, "Reels")}${icone(p.story, "Story")}${icone(p.facebook, "Facebook")}${icone(tg, "Telegram")}</div>
+      ${nums ? `<div class="nums">${nums}</div>` : `<div class="meta">Métricas aparecem algumas horas depois do post.</div>`}
+      ${m.story ? `<div class="meta">Story: ${num(m.story.alcance)} pessoas alcançadas · ${num(m.story.respostas)} respostas</div>` : ""}
+      ${m.views_fb != null ? `<div class="meta">Facebook: ${num(m.views_fb)} visualizações</div>` : ""}
+      <div class="botoes">
+        ${m.link_ig ? `<a href="${esc(m.link_ig)}" target="_blank" rel="noopener">📸 Abrir no Instagram</a>` : ""}
+        ${m.link_fb ? `<a href="${esc(m.link_fb)}" target="_blank" rel="noopener">📘 Abrir no Facebook</a>` : ""}
+        <a href="${esc(p.link)}" target="_blank" rel="noopener">🛒 Produto</a>
+      </div></div></div>`;
+}
+
+function calendario(fila, publicados, agora) {
+  const porHorario = {};
+  fila.forEach(i => { porHorario[i.quando] = { foto: i.foto, nome: i.produto }; });
+  publicados.forEach(p => { const k = (p.chave || "").split(" | ")[0]; if (k) porHorario[k] = { foto: p.foto, nome: p.produto, ok: true }; });
+  const dias = [];
+  for (let i = 0; i < 7; i++) dias.push(new Date(agora.getTime() + i * 864e5));
+  let h = `<div></div>` + dias.map((d, i) => `<div class="cab ${i === 0 ? "hj" : ""}">${i === 0 ? "Hoje" : d.toLocaleDateString("pt-BR", { weekday: "short", timeZone: "America/Sao_Paulo" }).replace(".", "")}<br>${d.toLocaleDateString("pt-BR", { day: "2-digit", timeZone: "America/Sao_Paulo" })}</div>`).join("");
+  for (const hora of [11, 15, 20]) {
+    h += `<div class="hora">${hora}h</div>`;
+    for (const d of dias) {
+      const k = `${chaveDiaP(d)} ${String(hora).padStart(2, "0")}:00`, s = porHorario[k];
+      const passou = new Date(k.replace(" ", "T") + ":00-03:00") < agora;
+      h += s ? `<div class="slot" title="${esc(s.nome)}">${s.foto ? `<img src="${esc(s.foto)}" alt="" loading="lazy">` : esc(s.nome.slice(0, 10))}${s.ok ? `<span class="ok">✓</span>` : ""}</div>`
+             : `<div class="slot ${passou ? "" : "vazio-slot"}" title="${passou ? "" : "Horário vazio"}">${passou ? "" : "vazio"}</div>`;
+    }
+  }
+  return h;
+}
+
+async function alertasGitHub() {
+  try {
+    const r = await fetch("https://api.github.com/repos/adrianevarela/varela-indica-app/actions/runs?per_page=30").then(r => r.json());
+    const limite = Date.now() - 24 * 3600e3;
+    return (r.workflow_runs || []).filter(x => x.conclusion === "failure" && new Date(x.created_at) > limite)
+      .map(x => `❌ Falhou: ${x.name} (${fmt(new Date(x.created_at))}) — <a href="${esc(x.html_url)}" target="_blank" rel="noopener">ver motivo</a>`);
+  } catch (e) { return []; }
+}
+
+function contagem(proximos) {
+  const el = document.getElementById("proximo-post");
+  const p = proximos[0];
+  if (!p) { el.style.display = "none"; return; }
+  el.style.display = "flex";
+  const atualizar = () => {
+    const ms = quando(p.quando) - new Date();
+    const h = Math.floor(ms / 3600e3), mi = Math.max(0, Math.floor(ms % 3600e3 / 60e3));
+    el.innerHTML = `${p.foto ? `<img src="${esc(p.foto)}" alt="">` : ""}<div>⏱️ Próximo post ${ms > 0 ? `em ${h > 0 ? h + "h" : ""}${String(mi).padStart(h > 0 ? 2 : 1, "0")}${h > 0 ? "" : " min"}` : "saindo agora"}<small>${esc(p.produto)} · ${fmt(quando(p.quando))}</small></div>`;
+  };
+  atualizar();
+  clearInterval(contagem.t); contagem.t = setInterval(atualizar, 30e3);
+}
+
 async function carregar() {
-  const pegar = n => fetch(BASE + n + "?t=" + Date.now()).then(r => r.json());
-  const [fila, estado] = await Promise.all([pegar("fila.json"), pegar("estado.json")]);
+  const pegar = n => fetch(BASE + n + "?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}));
+  const [fila, estado, metricas, alertas] = await Promise.all([pegar("fila.json"), pegar("estado.json"), pegar("docs/metricas.json"), alertasGitHub()]);
+  DADOS = { fila: Array.isArray(fila) ? fila : [], estado, metricas };
   const agora = new Date();
   const feitos = new Set(estado.feitos || []);
   const jaFoi = i => [...feitos].some(f => f.endsWith(`| ${i.quando} | ${i.produto}`));
-  const proximos = fila.filter(i => quando(i.quando) > agora && !jaFoi(i)).sort((a, b) => quando(a.quando) - quando(b.quando));
+  const proximos = DADOS.fila.filter(i => quando(i.quando) > agora && !jaFoi(i)).sort((a, b) => quando(a.quando) - quando(b.quando));
   const postados = (estado.publicados || []).slice().sort((a, b) => b.numero - a.numero);
+  const mp = (metricas.posts || {});
+  const hist = Object.entries(metricas.historico || {}).sort();
+  const hojeStr = chaveDiaP(agora);
 
-  const hojeStr = agora.toLocaleDateString("pt-BR", { timeZone:"America/Sao_Paulo" });
+  // alertas
+  const ultimo = proximos.length ? quando(proximos[proximos.length - 1].quando) : null;
+  const diasFila = ultimo ? Math.max(0, Math.round((ultimo - agora) / 864e5 * 10) / 10) : 0;
+  if (!proximos.length || diasFila < 1) alertas.push("⚠️ A fila está acabando. Confira se o robô da Shopee rodou às 6h.");
+  postados.filter(p => new Date(p.em) > agora - 864e5 && (!p.reel || !p.facebook))
+    .forEach(p => alertas.push(`⚠️ O post nº ${p.numero} (${esc(p.produto)}) não saiu ${!p.reel ? "no Instagram" : "no Facebook"}.`));
+  document.getElementById("alertas").innerHTML = alertas.map(a => `<div class="alerta">${a}</div>`).join("");
+
+  contagem(proximos);
+
+  // numeros do topo
+  const ha = n => { const alvo = chaveDiaP(new Date(agora - n * 864e5)); const e = hist.filter(([d]) => d <= alvo).pop(); return e ? e[1] : {}; };
+  const hoje = (hist[hist.length - 1] || [])[1] || {};
+  const delta = (a, b) => (a != null && b != null) ? a - b : null;
+  const seta = d => d == null ? "" : `<span class="delta ${d >= 0 ? "up" : "down"}">${d >= 0 ? "▲" : "▼"} ${num(Math.abs(d))} em 7 dias</span>`;
+  const dSeg = delta(metricas.perfil?.followers_count, ha(7).seguidores), dTg = delta(metricas.telegram, ha(7).telegram);
+  const ultimos7 = postados.filter(p => new Date(p.em) > agora - 7 * 864e5);
+  const views7 = ultimos7.reduce((a, p) => a + ((mp[p.numero] || {}).views || 0), 0);
+  const somaConta = (campo, dias) => hist.slice(-dias - 1, -1).reduce((a, [, h]) => a + ((h.conta || {})[campo] || 0), 0);
+  const cliques7 = somaConta("website_clicks", 7), visitas7 = somaConta("profile_views", 7);
+  document.getElementById("kpis").innerHTML = [
+    [num(metricas.perfil?.followers_count), "seguidores no Instagram", seta(dSeg)],
+    [num(metricas.telegram), "membros no Telegram", seta(dTg)],
+    [num(views7), "visualizações (posts de 7 dias)", ""],
+    [cliques7 ? num(cliques7) : "—", "cliques no link da bio (7 dias)", visitas7 ? `<span class="meta">${num(visitas7)} visitas ao perfil</span>` : ""],
+    [postados.length, "posts feitos", ""],
+    [ultimo ? `${diasFila} dias` : "0", "de posts garantidos", ""],
+  ].map(([v, t, x]) => `<div class="kpi"><b>${v}</b><span>${t}</span>${x ? `<div>${x}</div>` : ""}</div>`).join("");
+
+  document.getElementById("calendario").innerHTML = calendario(DADOS.fila, estado.publicados || [], agora);
+
+  // seguidores: novos por dia
+  const serie = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(agora - i * 864e5), k = chaveDiaP(d), ant = chaveDiaP(new Date(agora - (i + 1) * 864e5));
+    const a = (metricas.historico || {})[k] || {}, b = (metricas.historico || {})[ant] || {};
+    const novo = (a.seguidores != null && b.seguidores != null) ? Math.max(0, a.seguidores - b.seguidores) : 0;
+    serie.push({ d, v: novo, total: a.seguidores });
+  }
+  const gs = document.getElementById("grafico-seguidores");
+  if (hist.length < 2) gs.innerHTML = `<div class="meta">O gráfico aparece depois de 2 dias de medição.</div>`;
+  else if (typeof desenharGrafico === "function")
+    desenharGrafico(gs, serie, d => `<b>${d.d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" })}</b> · +${num(d.v)} novos · ${num(d.total)} no total`, "Novos seguidores por dia");
+
+  // ranking por visualizacoes
+  const comViews = postados.filter(p => (mp[p.numero] || {}).views != null).sort((a, b) => mp[b.numero].views - mp[a.numero].views).slice(0, 5);
+  document.getElementById("ranking").innerHTML = comViews.map((p, i) => `<div class="item">
+      <img src="${esc((mp[p.numero] || {}).capa || p.foto)}" alt="" loading="lazy">
+      <div><div class="nome">${i + 1}. ${esc(p.produto)}</div><div class="meta">nº ${p.numero} · ${fmt(new Date(p.em))} · ❤ ${num(mp[p.numero].curtidas)} · 🔖 ${num(mp[p.numero].salvos)}</div></div>
+      <div class="dir valor">👁 ${num(mp[p.numero].views)}</div></div>`).join("")
+    || `<div class="vazio">As visualizações aparecem quando o robô de métricas rodar (a cada 3 horas).</div>`;
+
+  // melhor horario (media de visualizacoes)
+  const porHora = { 11: [], 15: [], 20: [] };
+  postados.forEach(p => { const v = (mp[p.numero] || {}).views; const h = +((p.chave || "").split(" ")[1] || "0").slice(0, 2); if (v != null && porHora[h]) porHora[h].push(v); });
+  const medias = Object.entries(porHora).map(([h, l]) => [h, l.length ? l.reduce((a, b) => a + b, 0) / l.length : null, l.length]);
+  const maxM = Math.max(1, ...medias.map(m => m[1] || 0));
+  document.getElementById("horarios").innerHTML = medias.some(m => m[1] != null)
+    ? medias.map(([h, v, n]) => `<div class="linha"><span>${h}h <span class="meta">(${n} posts)</span></span><span class="valor">${v == null ? "—" : num(Math.round(v)) + " visualizações em média"}</span>
+        <div class="trilho"><i style="width:${v ? Math.max(2, v / maxM * 100) : 0}%"></i></div></div>`).join("")
+      + `<p class="meta">Na aba 💰 Ganhos você vê também qual horário vende mais.</p>`
+    : `<div class="vazio">Aparece quando houver visualizações medidas.</div>`;
+
   document.getElementById("proximos").innerHTML = proximos.map(p => linha(p, {
-    meta: fmt(quando(p.quando)),
-    cls: quando(p.quando).toLocaleDateString("pt-BR", { timeZone:"America/Sao_Paulo" }) === hojeStr ? "hoje" : ""
+    meta: fmt(quando(p.quando)), cls: chaveDiaP(quando(p.quando)) === hojeStr ? "hoje" : ""
   })).join("") || `<div class="vazio">Fila vazia — o robô da Shopee preenche às 6h.</div>`;
 
-  document.getElementById("postados").innerHTML = postados.slice(0, 30).map(p => linha(
-    Object.assign({}, p.item || {}, p, { texto: (p.item || {}).texto, comissao: (p.item || {}).comissao }),
-    { meta: `nº ${p.numero} · ${fmt(new Date(p.em))} · ${["reel","facebook"].filter(k => p[k]).length ? "Insta" + (p.facebook ? " + Face" : "") : ""}` }
-  )).join("") || `<div class="vazio">Nenhum post ainda.</div>`;
+  document.getElementById("postados").innerHTML = postados.slice(0, 30).map(p => cartaoPost(
+    Object.assign({}, p, { foto: p.foto || (p.item || {}).foto }), mp[p.numero] || {}, feitos)).join("")
+    || `<div class="vazio">Nenhum post ainda.</div>`;
 
-  const comissoes = proximos.map(p => p.comissao).filter(Boolean);
-  const ultimo = proximos.length ? quando(proximos[proximos.length - 1].quando) : null;
-  const dias = ultimo ? Math.max(0, Math.round((ultimo - agora) / 864e5 * 10) / 10) : 0;
-  document.getElementById("kpis").innerHTML = [
-    [postados.length, "posts feitos"],
-    [proximos.length, "na fila"],
-    [ultimo ? `${dias} dias` : "0", "de posts garantidos"],
-    [comissoes.length ? brl(comissoes.reduce((a, b) => a + b, 0) / comissoes.length) : "—", "comissão média/venda (fila)"],
-  ].map(([v, t]) => `<div class="kpi"><b>${v}</b><span>${t}</span></div>`).join("");
-
-  const aviso = document.getElementById("aviso");
-  if (!proximos.length || dias < 1) { aviso.style.display = "block"; aviso.textContent = "⚠️ A fila está acabando. Confira em Execuções se o robô da Shopee rodou às 6h."; }
-  document.getElementById("atualizado").textContent = "Atualizado agora · " + fmt(agora);
-}
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  document.getElementById("atualizado").textContent = "Atualizado " + fmt(agora) + (metricas.gerado ? " · métricas de " + fmt(new Date(metricas.gerado)) : "");
+  if (typeof redesenharGanhos === "function") redesenharGanhos();
+}if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 // ao voltar para o app, atualiza os dados
 document.addEventListener("visibilitychange", () => { if (!document.hidden) carregar().catch(() => {}); });
 carregar().catch(e => { document.getElementById("atualizado").textContent = "Não consegui carregar os dados (" + e.message + "). Tente recarregar."; });
@@ -211,11 +363,14 @@ async function abrirGanhos(senha, lembrar) {
   document.getElementById("form-senha").hidden = true;
   const caixa = document.getElementById("ganhos");
   caixa.hidden = false;
+  GANHOS = dados;
   desenharGanhos(caixa, dados);
 }
+let GANHOS = null;
+function redesenharGanhos() { const cx = document.getElementById("ganhos"); if (GANHOS && !cx.hidden) desenharGanhos(cx, GANHOS); }
 
 function sair() {
-  guardar.salvar(CHAVE_SENHA, null);
+  guardar.salvar(CHAVE_SENHA, null); GANHOS = null;
   document.getElementById("ganhos").hidden = true;
   document.getElementById("ganhos").innerHTML = "";
   const f = document.getElementById("form-senha"); f.hidden = false; f.reset();
@@ -256,7 +411,17 @@ function desenharGanhos(caixa, dados) {
   const topCat = Object.entries(cat).sort((a, b) => b[1] - a[1]).slice(0, 6);
   const maxCat = topCat.length ? topCat[0][1] : 1;
   const canais = Object.entries(canal).sort((a, b) => b[1].v - a[1].v);
-
+  // ganho por post: cada item vendido vai para o post mais recente daquele produto antes da compra
+  const pubs = ((DADOS.estado || {}).publicados || []).filter(p => (p.item || {}).itemId).map(p => ({ p, t: new Date(p.em), id: String(p.item.itemId), v: 0, n: 0 }));
+  validas.forEach(c => c.itens.forEach(i => {
+    const cand = pubs.filter(x => x.id === String(i.id) && x.t <= c.quando && c.quando - x.t < 14 * 864e5).sort((a, b) => b.t - a.t)[0];
+    if (cand) { cand.v += i.comissao || 0; cand.n += i.qtd || 1; }
+  }));
+  const mpG = (DADOS.metricas || {}).posts || {};
+  const porPost = pubs.filter(x => x.v > 0).map(x => Object.assign(x, { views: (mpG[x.p.numero] || {}).views })).sort((a, b) => b.v - a.v).slice(0, 10);
+  const porHoraG = { 11: 0, 15: 0, 20: 0 };
+  pubs.forEach(x => { const h = +((x.p.chave || "").split(" ")[1] || "0").slice(0, 2); if (h in porHoraG) porHoraG[h] += x.v; });
+  const maxHG = Math.max(0.01, ...Object.values(porHoraG));
   caixa.innerHTML = `
     <div class="topo-ganhos"><div class="meta">Dados da Shopee · atualizado ${fmt(new Date(dados.gerado))} · últimos ${dados.dias} dias</div>
       <button class="btn-sair" onclick="sair()">🔒 Fechar</button></div>
@@ -278,8 +443,18 @@ function desenharGanhos(caixa, dados) {
     </div>
     <h2>📈 Ganhos por dia (30 dias)</h2>
     <div class="cartao grafico" id="grafico"></div>
-    <h2>🏆 Produtos que mais renderam</h2>
-    <div class="lista">${topProd.map((p, i) => `<div class="item">
+    <h2>🎬 Ganho por post</h2>
+    <p class="meta" style="margin-top:-6px">Vendas do produto em até 14 dias depois do post (produtos da Shopee).</p>
+    <div class="lista">${porPost.map((x, i) => `<div class="item">
+        ${x.p.foto ? `<img src="${esc(x.p.foto)}" alt="" loading="lazy">` : "<span></span>"}
+        <div><div class="nome">${i + 1}. nº ${x.p.numero} · ${esc(x.p.produto)}</div>
+          <div class="meta">${fmt(x.t)} · ${x.n} vendido${x.n === 1 ? "" : "s"}${x.views ? ` · 👁 ${Number(x.views).toLocaleString("pt-BR")}` : ""}</div>
+          ${x.views ? `<div class="com">${R$(x.v / x.views * 1000)} a cada 1.000 visualizações</div>` : ""}</div>
+        <div class="dir valor">${R$(x.v)}</div></div>`).join("") || `<div class="vazio">Ainda não há vendas ligadas a um post.</div>`}</div>
+    <h2>🕐 Horário que mais vende</h2>
+    <div class="cartao barras-h">${Object.entries(porHoraG).map(([h, v]) => `<div class="linha"><span>${h}h</span><span class="valor">${R$(v)}</span>
+        <div class="trilho"><i style="width:${v ? Math.max(2, v / maxHG * 100) : 0}%"></i></div></div>`).join("")}</div>
+    <h2>🏆 Produtos que mais renderam</h2>    <div class="lista">${topProd.map((p, i) => `<div class="item">
         ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : "<span></span>"}
         <div><div class="nome">${i + 1}. ${esc(p.nome)}</div><div class="meta">${p.qtd} vendido${p.qtd === 1 ? "" : "s"}</div></div>
         <div class="dir valor">${R$(p.v)}</div></div>`).join("") || `<div class="vazio">Nenhuma venda ainda.</div>`}</div>
@@ -298,14 +473,15 @@ function desenharGanhos(caixa, dados) {
   desenharGrafico(document.getElementById("grafico"), dias);
 }
 
-function desenharGrafico(el, dias) {
+function desenharGrafico(el, dias, rotulo, titulo) {
+  rotulo = rotulo || (d => `<b>${d.d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" })}</b> · ${R$(d.v)} · ${d.n} pedido${d.n === 1 ? "" : "s"}`);
   // desenha no tamanho real da tela (sem esticar as letras)
   const L = Math.max(280, Math.round(el.clientWidth - 28)), A = 200, m = { e: 40, d: 6, t: 12, b: 24 };
   const max = Math.max(1, ...dias.map(d => d.v));
   const passo = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000].find(p => max / p <= 4) || 1000;
   const topo = Math.ceil(max / passo) * passo;
   const w = (L - m.e - m.d) / dias.length, y = v => A - m.b - (v / topo) * (A - m.b - m.t);
-  let svg = `<svg viewBox="0 0 ${L} ${A}" width="${L}" height="${A}" role="img" aria-label="Ganhos por dia nos últimos 30 dias">`;
+  let svg = `<svg viewBox="0 0 ${L} ${A}" width="${L}" height="${A}" role="img" aria-label="${titulo || "Ganhos por dia nos últimos 30 dias"}">`;
   for (let v = 0; v <= topo; v += passo)
     svg += `<line x1="${m.e}" x2="${L - m.d}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grade)" stroke-width="1"/>
             <text x="${m.e - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--suave)">${v.toLocaleString("pt-BR")}</text>`;
@@ -325,7 +501,7 @@ function desenharGrafico(el, dias) {
   el.querySelectorAll(".alvo").forEach(r => {
     const mostrar = ev => {
       const d = dias[+r.dataset.i], caixa = el.getBoundingClientRect(), alvo = r.getBoundingClientRect();
-      dica.innerHTML = `<b>${d.d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" })}</b> · ${R$(d.v)} · ${d.n} pedido${d.n === 1 ? "" : "s"}`;
+      dica.innerHTML = rotulo(d);
       dica.style.left = Math.min(Math.max(alvo.left - caixa.left + alvo.width / 2, 80), caixa.width - 80) + "px";
       dica.style.top = (alvo.top - caixa.top + 30) + "px";
       dica.style.display = "block";
