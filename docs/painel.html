@@ -190,9 +190,10 @@ function calendario(fila, publicados, agora) {
     h += `<div class="hora">${hora}h</div>`;
     for (const d of dias) {
       const k = `${chaveDiaP(d)} ${String(hora).padStart(2, "0")}:00`, s = porHorario[k];
-      const passou = new Date(k.replace(" ", "T") + ":00-03:00") < agora;
+      const t = new Date(k.replace(" ", "T") + ":00-03:00"), passou = t < agora;
+      const urgente = !passou && t - agora < 2 * 864e5;  // a Shopee preenche 3 dias a frente: vazio so preocupa se for logo
       h += s ? `<div class="slot" title="${esc(s.nome)}">${s.foto ? `<img src="${esc(s.foto)}" alt="" loading="lazy">` : esc(s.nome.slice(0, 10))}${s.ok ? `<span class="ok">✓</span>` : ""}</div>`
-             : `<div class="slot ${passou ? "" : "vazio-slot"}" title="${passou ? "" : "Horário vazio"}">${passou ? "" : "vazio"}</div>`;
+             : `<div class="slot ${urgente ? "vazio-slot" : ""}" title="${urgente ? "Horário vazio" : passou ? "" : "A Shopee preenche mais perto do dia"}">${urgente ? "vazio" : passou ? "" : "·"}</div>`;
     }
   }
   return h;
