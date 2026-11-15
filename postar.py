@@ -12,6 +12,7 @@ Uso:
 import html
 import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -115,35 +116,150 @@ def ffmpeg(*args):
         raise RuntimeError(r.stderr[-500:])
 
 
+FONTE = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+MUSICAS = os.path.join(PASTA, "musicas")
+VOZ = os.environ.get("VOZ", "pt-BR-FranciscaNeural")
+
+
+def duracao(arquivo):
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", arquivo],
+                       capture_output=True, text=True)
+    try:
+        return float(r.stdout.strip())
+    except ValueError:
+        return 0.0
+
+
+def quebrar(texto, largura):
+    linhas, atual = [], ""
+    for p in texto.split():
+        if atual and len(atual) + 1 + len(p) > largura:
+            linhas.append(atual)
+            atual = p
+        else:
+            atual = f"{atual} {p}".strip()
+    return linhas + ([atual] if atual else [])
+
+
 def baixar_video(item, pasta):
-    """Devolve um MP4 vertical pronto para o Instagram.
-    Usa o video do anuncio (campo 'video': .m3u8 ou .mp4); sem video, cria um a partir da foto."""
-    saida = os.path.join(pasta, "reel.mp4")
+    """Devolve (MP4 vertical 1080x1920, veio_da_foto).
+    Usa o video do anuncio (campo 'video': .m3u8 ou .mp4); sem video, cria um de 20 s a partir da foto."""
+    saida = os.path.join(pasta, "base.mp4")
     if item.get("video"):
         try:
             ffmpeg("-i", item["video"], "-t", "90",
                    "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:white,fps=30",
                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
                    "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-movflags", "+faststart", saida)
-            return saida
+            return saida, False
         except RuntimeError as e:
             log(f"  video do anuncio falhou ({e}); vou criar um com a foto")
     if not item.get("foto"):
         raise RuntimeError("produto sem video e sem foto")
     foto = os.path.join(pasta, "foto.jpg")
     urllib.request.urlretrieve(item["foto"], foto)
-    zoom = "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:white,zoompan=z='min(zoom+0.0008,1.15)':d=240:s=1080x1920:fps=30"
-    texto = re.sub(r"[^\w\s$,.!-]", "", f"{item['produto']}  {preco_de(item)}").strip().replace(":", " ")
-    fonte = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    com_texto = zoom + (f",drawtext=fontfile={fonte}:text='{texto}':fontsize=64:fontcolor=white:box=1:boxcolor=0xE91E63@0.9:"
-                        "boxborderw=24:x=(w-text_w)/2:y=h-360")
-    base = ["-loop", "1", "-i", foto, "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", "8"]
+    zoom = ("scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:white,"
+            "zoompan=z='min(zoom+0.0005,1.15)':d=600:s=1080x1920:fps=30")
+    # nome em ate 2 linhas curtas + preco grande embaixo, tudo dentro da largura do video
+    limpo = lambda t: re.sub(r"[^\w\s$,.!%-]", "", t).replace("%", "\\%").strip()
+    linhas = [(limpo(l), 56) for l in quebrar(item["produto"], 24)[:2]]
+    if preco_de(item):
+        linhas.append((limpo(preco_de(item)), 84))
+    y, textos = 1920 - 160 - sum(t + 40 for _, t in linhas), []
+    for linha, tam in linhas:
+        textos.append(f"drawtext=fontfile={FONTE}:text='{linha}':fontsize={tam}:fontcolor=white:box=1:"
+                      f"boxcolor=0xE91E63@0.92:boxborderw=18:x=(w-text_w)/2:y={y}")
+        y += tam + 40
+    base = ["-loop", "1", "-i", foto, "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", "20"]
     fim = ["-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", "-movflags", "+faststart", saida]
     try:
-        ffmpeg(*base, "-vf", com_texto, *fim)
+        ffmpeg(*base, "-vf", ",".join([zoom] + textos), *fim)
     except RuntimeError:
         ffmpeg(*base, "-vf", zoom, *fim)
+    return saida, True
+
+
+# ---------- audio: narracao + musica ----------
+
+def reais_falado(valor):
+    m = re.search(r"([\d.]+),(\d{2})", valor or "")
+    if not m:
+        return ""
+    inteiro, cent = int(m.group(1).replace(".", "")), int(m.group(2))
+    texto = f"{inteiro} {'real' if inteiro == 1 else 'reais'}"
+    return texto + (f" e {cent} centavos" if cent else "")
+
+
+def roteiro(item, numero):
+    texto = item.get("texto", "")
+    antes = re.search(r"<s>(R\$\s?[\d.,]+)</s>", texto)
+    desconto = re.search(r"\(-(\d+)%\)", texto)
+    loja = item.get("loja") or "Mercado Livre"
+    partes = [f"Olha esse achadinho {'da' if loja == 'Shopee' else 'do' if loja == 'Mercado Livre' else 'da'} {loja}!",
+              f"{item['produto']}."]
+    agora = reais_falado(preco_de(item))
+    if antes and agora:
+        partes.append(f"De {reais_falado(antes.group(1))} por apenas {agora}!")
+    elif agora:
+        partes.append(f"Por apenas {agora}!")
+    if desconto and int(desconto.group(1)) >= 15:
+        partes.append(f"São {desconto.group(1)} por cento de desconto!")
+    partes.append(f"O link tá na bio, produto número {numero}. Corre que o preço pode mudar!")
+    return " ".join(partes)
+
+
+def narracao(item, numero, pasta):
+    saida = os.path.join(pasta, "voz.mp3")
+    texto = roteiro(item, numero)
+    r = subprocess.run(["edge-tts", "--voice", VOZ, "--rate=+8%", "--text", texto, "--write-media", saida],
+                       capture_output=True, text=True)
+    if r.returncode != 0 or not os.path.exists(saida):
+        log(f"  narracao falhou: {r.stderr[-200:]}")
+        return None
     return saida
+
+
+def com_audio(video, veio_da_foto, item, numero, pasta):
+    """Coloca narracao (voz) + musica de fundo (se houver arquivos em musicas/) no video."""
+    saida = os.path.join(pasta, "reel.mp4")
+    voz = narracao(item, numero, pasta) if os.environ.get("NARRACAO", "sim") != "nao" else None
+    musicas = [os.path.join(MUSICAS, m) for m in os.listdir(MUSICAS)
+               if m.lower().endswith((".mp3", ".m4a", ".wav"))] if os.path.isdir(MUSICAS) else []
+    musica = random.choice(musicas) if musicas else None
+    if veio_da_foto:
+        total = max(8.0, (duracao(voz) + 2.0) if voz else 10.0)
+    else:
+        total = duracao(video) or 30.0
+    if not voz and not musica:
+        if veio_da_foto:
+            ffmpeg("-i", video, "-t", f"{total:.2f}", "-c", "copy", saida)
+            return saida
+        return video
+    entradas, mistura, n = ["-i", video], [], 1
+    if voz:
+        entradas += ["-i", voz]
+        mistura.append(f"[{n}:a]adelay=500|500,volume=1.8[v{n}]")
+        n += 1
+    if musica:
+        entradas += ["-stream_loop", "-1", "-i", musica]
+        mistura.append(f"[{n}:a]volume={'0.10' if voz else '0.35'},afade=t=out:st={max(0, total - 1.5):.2f}:d=1.5[v{n}]")
+        n += 1
+    rotulos = "".join(f"[v{i}]" for i in range(1, n))
+    filtro = ";".join(mistura) + (f";{rotulos}amix=inputs={n - 1}:duration=longest:normalize=0[a]" if n > 2
+                                  else f";{rotulos}anull[a]")
+    try:
+        ffmpeg(*entradas, "-filter_complex", filtro, "-map", "0:v", "-map", "[a]", "-t", f"{total:.2f}",
+               "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-ar", "44100", "-movflags", "+faststart", saida)
+        log(f"  audio: {'narracao' if voz else ''}{' + ' if voz and musica else ''}{'musica ' + os.path.basename(musica) if musica else ''}")
+        return saida
+    except RuntimeError as e:
+        log(f"  nao consegui colocar audio ({e}); vai o video original")
+        return video
+
+
+def preparar_video(item, numero, pasta):
+    video, veio_da_foto = baixar_video(item, pasta)
+    return com_audio(video, veio_da_foto, item, numero, pasta)
 
 
 # ---------- Instagram ----------
@@ -349,6 +465,19 @@ def reprise(fila, estado, agora):
 
 
 def main():
+    if "--video" in sys.argv:  # so monta o video (com som e faixa do story) para conferir, sem postar
+        item = ler_json(FILA, [])[int(sys.argv[sys.argv.index("--video") + 1]) - 1]
+        os.makedirs(os.path.join(PASTA, "previa"), exist_ok=True)
+        with tempfile.TemporaryDirectory() as pasta:
+            video = preparar_video(item, 99, pasta)
+            story = video_story(video, 99)
+            for origem, nome in ((video, "reels.mp4"), (story, "story.mp4")):
+                with open(origem, "rb") as a, open(os.path.join(PASTA, "previa", nome), "wb") as b:
+                    b.write(a.read())
+        log(f"Previa pronta: {item['produto']} ({duracao(os.path.join(PASTA, 'previa', 'reels.mp4')):.0f} s)")
+        log("Narracao: " + roteiro(item, 99))
+        return
+
     simular = "--simular" in sys.argv
     teste = int(sys.argv[sys.argv.index("--teste") + 1]) if "--teste" in sys.argv else 0
     ativos = canais() or (["ig", "tg"] if simular else [])
@@ -378,7 +507,7 @@ def main():
         numero = registro["numero"] if registro else estado["contador"] + 1
         log(f"{'[SIMULACAO] ' if simular else ''}nº {numero}: {chave(item)} -> {', '.join(faltam)}")
         if simular:
-            print("-" * 40 + "\n" + legenda_de(item, numero) + "\n" + "-" * 40)
+            print("-" * 40 + "\n" + legenda_de(item, numero) + "\n\n🎙️ Narracao: " + roteiro(item, numero) + "\n" + "-" * 40)
             continue
         if not registro:
             registro = {"numero": numero, "chave": chave(item), "em": agora.isoformat(), "produto": item["produto"],
@@ -389,7 +518,7 @@ def main():
             for canal in faltam:
                 try:
                     if canal in ("ig", "fb") and not video:
-                        video = baixar_video(item, pasta)  # o mesmo video serve para Instagram e Facebook
+                        video = preparar_video(item, numero, pasta)  # o mesmo video serve para Instagram e Facebook
                     if canal == "ig":
                         registro["reel"], registro["story"] = postar(item, numero, video)
                     elif canal == "fb":
