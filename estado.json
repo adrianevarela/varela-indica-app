@@ -1,1 +1,33 @@
-{"contador": 0, "feitos": [], "publicados": []}
+{
+ "contador": 1,
+ "feitos": [
+  "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
+  "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
+  "tg | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador"
+ ],
+ "publicados": [
+  {
+   "numero": 1,
+   "chave": "2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
+   "em": "2026-11-15T18:38:50.358354-03:00",
+   "produto": "Hidrabene Protetor Solar Clareador",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/3g5HOZpN9a",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820ld-mswt16eywd1h35",
+   "preco": "R$ 32,90",
+   "item": {
+    "produto": "Hidrabene Protetor Solar Clareador",
+    "loja": "Shopee",
+    "itemId": "58214668571",
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820ld-mswt16eywd1h35",
+    "video": "",
+    "link": "https://s.shopee.com.br/3g5HOZpN9a",
+    "preco": "R$ 32,90",
+    "texto": "🧡 <b>Achadinho da Shopee: Hidrabene Protetor Solar Clareador</b>\n\nHidrabene Protetor Solar Clareador Facial 70 FPS\n\n💰 De <s>R$ 59,82</s> por <b>R$ 32,90</b> (-45%)\n⭐ 4,9 · +34 mil vendidos"
+   },
+   "reel": "18086531987355035",
+   "story": "17947419351362514",
+   "facebook": "1845375093325695"
+  }
+ ]
+}
