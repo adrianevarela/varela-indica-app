@@ -76,7 +76,7 @@ def aprovado(p, usados):
 
 BUSCA = """query($kw:String,$page:Int,$limit:Int,$sort:Int){
   productOfferV2(keyword:$kw,page:$page,limit:$limit,sortType:$sort){
-    nodes{ itemId productName priceMin priceMax priceDiscountRate sales ratingStar imageUrl offerLink shopName commissionRate commission }
+    nodes{ itemId productName priceMin priceMax priceDiscountRate sales ratingStar imageUrl offerLink productLink shopName commissionRate commission }
   }
 }"""
 
@@ -96,6 +96,20 @@ def comissao_rs(p):
 def pontuacao(p):
     # comissao em reais x popularidade (log das vendas, para nao so ganhar quem vende muito) x desconto
     return (comissao_rs(p) + 0.5) * math.log10(max(10, int(p.get("sales") or 0))) * (1 + int(p.get("priceDiscountRate") or 0) / 200)
+
+
+def link_rastreavel(p, canal):
+    """Link de afiliada com etiqueta do canal (aparece no relatorio de vendas como utmContent)."""
+    origem = p.get("productLink")
+    if origem:
+        try:
+            q = f'mutation{{generateShortLink(input:{{originUrl:{json.dumps(origem)},subIds:["{canal}"]}}){{shortLink}}}}'
+            link = consultar(q, {})["generateShortLink"]["shortLink"]
+            if link:
+                return link
+        except Exception as e:
+            log(f"  link rastreavel ({canal}) falhou: {e}")
+    return p["offerLink"]
 
 
 def reais(valor):
@@ -134,7 +148,8 @@ def virar_item(p, quando):
     curto = nome_curto(p["productName"])
     return {
         "quando": quando, "produto": curto, "loja": "Shopee", "itemId": str(p["itemId"]), "comissao": round(comissao_rs(p), 2),
-        "foto": p.get("imageUrl", ""), "video": "", "link": p["offerLink"], "preco": reais(preco),
+        "foto": p.get("imageUrl", ""), "video": "", "link": link_rastreavel(p, "bio"),
+        "link_tg": link_rastreavel(p, "tg"), "preco": reais(preco),
         "texto": (f"🧡 <b>{html.escape(curto)}</b>\n\n{html.escape(p['productName'][:160])}\n\n"
                   f"{linha_preco}\n⭐ {nota} · {vendas_txt}"),
     }
