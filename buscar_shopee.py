@@ -135,7 +135,7 @@ def virar_item(p, quando):
     return {
         "quando": quando, "produto": curto, "loja": "Shopee", "itemId": str(p["itemId"]), "comissao": round(comissao_rs(p), 2),
         "foto": p.get("imageUrl", ""), "video": "", "link": p["offerLink"], "preco": reais(preco),
-        "texto": (f"🧡 <b>Achadinho da Shopee: {html.escape(curto)}</b>\n\n{html.escape(p['productName'][:160])}\n\n"
+        "texto": (f"🧡 <b>{html.escape(curto)}</b>\n\n{html.escape(p['productName'][:160])}\n\n"
                   f"{linha_preco}\n⭐ {nota} · {vendas_txt}"),
     }
 
