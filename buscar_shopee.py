@@ -13,6 +13,7 @@ import html
 import json
 import os
 import random
+import re
 import sys
 import time
 import urllib.request
@@ -25,31 +26,51 @@ SEGREDO = os.environ.get("SHOPEE_SECRET", "")
 URL = "https://open-api.affiliate.shopee.com.br/graphql"
 DIAS = 3
 HORARIOS = (11, 15, 20)
-NOTA_MIN = 4.6
-VENDAS_MIN = 500
+NOTA_MIN = 4.7
+VENDAS_MIN = 1000
+DESCONTO_MIN = 15      # % de desconto minimo
+PRECO_MIN = 12.0       # evita amostras e coisas de R$ 3
 NAO_REPETIR_DIAS = 60
 
 # Temas que vao rodando para variar as categorias (troque a vontade)
 TEMAS = [
     "achadinhos casa", "organizador", "cozinha utensilios", "airfryer acessorios", "limpeza casa",
-    "skincare", "maquiagem", "cabelo", "perfume", "acessorios celular", "fone bluetooth",
+    "skincare", "maquiagem", "cabelo", "acessorios celular", "fone bluetooth",
     "luminaria led", "banheiro", "lavanderia", "decoracao quarto", "garrafa termica",
     "pet", "infantil brinquedo", "fitness", "bolsa feminina", "papelaria", "viagem",
 ]
 
+# Produtos com estas palavras nunca entram (replicas, "inspirados", coisas arriscadas)
+PROIBIDAS = ["inspirad", "contratipo", "replica", "réplica", "similar", "1a linha", "primeira linha",
+             "perfume", "fragrância", "fragrancia", "colônia", "colonia", "eau de", "importado",
+             " 211 ", "selvage", "milion", "sauvage", "million", "amostra", "sample", "1g ", "1ml",
+             "adulto", "sensual", "erótic", "erotic", " arma ", "faca tática", "vape", "cigarro"]
+
 
 def consultar(query, variaveis):
     corpo = json.dumps({"query": query, "variables": variaveis}, separators=(",", ":"))
-    ts = str(int(time.time()))
-    assinatura = hashlib.sha256((APP_ID + ts + corpo + SEGREDO).encode()).hexdigest()
-    req = urllib.request.Request(URL, data=corpo.encode(), method="POST", headers={
-        "Content-Type": "application/json",
-        "Authorization": f"SHA256 Credential={APP_ID}, Timestamp={ts}, Signature={assinatura}"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        resposta = json.loads(r.read())
-    if resposta.get("errors"):
-        raise RuntimeError(f"Shopee recusou: {resposta['errors']}")
-    return resposta["data"]
+    for tentativa in range(4):
+        ts = str(int(time.time()))
+        assinatura = hashlib.sha256((APP_ID + ts + corpo + SEGREDO).encode()).hexdigest()
+        req = urllib.request.Request(URL, data=corpo.encode(), method="POST", headers={
+            "Content-Type": "application/json",
+            "Authorization": f"SHA256 Credential={APP_ID}, Timestamp={ts}, Signature={assinatura}"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            resposta = json.loads(r.read())
+        if not resposta.get("errors"):
+            return resposta["data"]
+        time.sleep(6 * (tentativa + 1))  # a Shopee limita a velocidade: espera e tenta de novo
+    raise RuntimeError(f"Shopee recusou: {resposta['errors']}")
+
+
+def aprovado(p, usados):
+    nome = f" {p.get('productName', '').lower()} "
+    return (str(p["itemId"]) not in usados and p.get("offerLink")
+            and float(p.get("ratingStar") or 0) >= NOTA_MIN
+            and int(p.get("sales") or 0) >= VENDAS_MIN
+            and int(p.get("priceDiscountRate") or 0) >= DESCONTO_MIN
+            and float(p.get("priceMin") or 0) >= PRECO_MIN
+            and not any(w in nome for w in PROIBIDAS))
 
 
 BUSCA = """query($kw:String,$page:Int,$limit:Int,$sort:Int){
@@ -63,11 +84,23 @@ def reais(valor):
     return "R$ " + f"{float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-def nome_curto(nome, limite=38):
+PEQUENAS = {"com", "de", "da", "do", "das", "dos", "para", "pra", "e", "a", "o", "em", "no", "na", "por", "|", "-", "+", "/"}
+
+
+def nome_curto(nome, limite=36):
+    nome = re.sub(r"^\s*(\[[^\]]*\]|【[^】]*】)\s*", "", nome)                     # [PROMO] no comeco
+    nome = re.sub(r"^\s*(\d+\s*/\s*)*\d+\s*(pcs|pçs|peças|pecas|un|unid\w*|x)\b\.?\s*", "", nome, flags=re.I)
     nome = " ".join(nome.split())
-    if len(nome) <= limite:
-        return nome
-    return nome[:limite].rsplit(" ", 1)[0]
+    if sum(c.isupper() for c in nome) > 0.6 * max(1, sum(c.isalpha() for c in nome)):
+        nome = nome.capitalize()                                                   # TUDO MAIUSCULO -> normal
+    palavras = []
+    for p in nome.split():
+        if len(" ".join(palavras + [p])) > limite:
+            break
+        palavras.append(p)
+    while len(palavras) > 1 and palavras[-1].lower() in PEQUENAS:
+        palavras.pop()
+    return " ".join(palavras) or nome[:limite]
 
 
 def virar_item(p, quando):
@@ -119,14 +152,13 @@ def main():
         while temas and not escolhido:
             tema = temas.pop()
             try:
-                nodes = consultar(BUSCA, {"kw": tema, "page": 1, "limit": 30, "sort": 2})["productOfferV2"]["nodes"]
+                nodes = consultar(BUSCA, {"kw": tema, "page": 1, "limit": 50, "sort": 2})["productOfferV2"]["nodes"]
             except Exception as e:
                 log(f"  busca '{tema}' falhou: {e}")
                 continue
-            bons = [p for p in nodes if str(p["itemId"]) not in usados and p.get("offerLink")
-                    and float(p.get("ratingStar") or 0) >= NOTA_MIN and int(p.get("sales") or 0) >= VENDAS_MIN]
-            # prioriza quem tem desconto e mais vendas
-            bons.sort(key=lambda p: (int(p.get("priceDiscountRate") or 0) > 0, int(p.get("sales") or 0)), reverse=True)
+            bons = [p for p in nodes if aprovado(p, usados)]
+            # prioriza mais vendas, com um bonus para desconto maior
+            bons.sort(key=lambda p: int(p.get("sales") or 0) * (1 + int(p.get("priceDiscountRate") or 0) / 100), reverse=True)
             if bons:
                 escolhido = bons[0]
                 log(f"{quando:%d/%m %Hh}: {nome_curto(escolhido['productName'])} ({tema})")
