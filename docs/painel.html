@@ -169,7 +169,7 @@ function cartaoPost(p, m, feitos) {
     <div><div class="nome">nº ${p.numero} · ${esc(p.produto)}</div>
       <div class="meta">${fmt(new Date(p.em))} · ${esc(p.preco || "")} <span class="tag">${esc(p.loja || "Mercado Livre")}</span></div>
       <div class="icones">${icone(p.reel, "Reels")}${icone(p.story, "Story")}${icone(p.facebook, "Facebook")}${icone(tg, "Telegram")}</div>
-      ${nums ? `<div class="nums">${nums}</div>` : `<div class="meta">Métricas aparecem algumas horas depois do post.</div>`}
+      ${m.apagado ? `<div class="meta">🗑️ Post apagado no Instagram.</div>` : nums ? `<div class="nums">${nums}</div>` : `<div class="meta">Métricas aparecem algumas horas depois do post.</div>`}
       ${m.story ? `<div class="meta">Story: ${num(m.story.alcance)} pessoas alcançadas · ${num(m.story.respostas)} respostas</div>` : ""}
       ${m.views_fb != null ? `<div class="meta">Facebook: ${num(m.views_fb)} visualizações</div>` : ""}
       <div class="botoes">
