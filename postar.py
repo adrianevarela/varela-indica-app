@@ -29,15 +29,25 @@ PAGINA = os.path.join(PASTA, "docs", "index.html")
 BRASILIA = timezone(timedelta(hours=-3))
 ATRASO_MAX = timedelta(hours=3)        # depois disso o post e pulado (nao posta fora de hora)
 REPRISE_DIAS = 21                      # se a fila acabar, repete um produto postado ha mais de 21 dias
-API_HOST = os.environ.get("IG_API_HOST", "graph.instagram.com")
+# Instagram + Facebook: com FB_PAGE_TOKEN (login pelo Facebook) o mesmo token publica no Instagram e na Pagina.
+# Sem ele, usa IG_TOKEN (login pelo Instagram, so Instagram).
+FB_TOKEN = os.environ.get("FB_PAGE_TOKEN", "")
+FB_PAGE = os.environ.get("FB_PAGE_ID", "")
+TOKEN = FB_TOKEN or os.environ.get("IG_TOKEN", "")
+API_HOST = os.environ.get("IG_API_HOST") or ("graph.facebook.com" if FB_TOKEN else "graph.instagram.com")
 API_VER = os.environ.get("IG_API_VERSION", "v23.0")
-TOKEN = os.environ.get("IG_TOKEN", "")
 IG_ID = os.environ.get("IG_USER_ID", "me")
-SITE = os.environ.get("SITE_URL", "")  # endereco da pagina link na bio (so para o log)
+SITE = os.environ.get("SITE_URL", "")  # endereco da pagina link na bio
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 TG_CHAT = os.environ.get("TELEGRAM_CHAT_ID", "-1003821123476")  # grupo "Varela Indica"
 
-HASHTAGS = "#achadinhos #achadinhosmercadolivre #mercadolivre #promoção #ofertas #achadosdodia #viralnotiktok #varelaindica"
+HASHTAGS_GERAIS = "#achadinhos #promoção #ofertas #achadosdodia #viralnotiktok #varelaindica #comprasonline"
+HASHTAGS_LOJA = {
+    "Shopee": "#achadinhosshopee #shopee #shopeebrasil #achadosshopee",
+    "Shein": "#shein #achadinhosshein #sheinbrasil #modafeminina",
+    "Amazon": "#amazon #achadinhosamazon #amazonbrasil",
+}
+HASHTAGS_ML = "#achadinhosmercadolivre #mercadolivre #achadosmercadolivre"
 
 
 def log(msg):
@@ -78,9 +88,13 @@ def preco_de(item):
     return m.group(1) if m else ""
 
 
-def legenda_de(item, numero):
-    """Legenda do Reels. Usa 'legenda' da fila se existir; senao monta a partir do texto do Telegram."""
-    bio = f"🔗 Link na bio: toque no produto nº {numero} 🛒"
+def legenda_de(item, numero, facebook=False):
+    """Legenda do Reels. Usa 'legenda' da fila se existir; senao monta a partir do texto do Telegram.
+    No Facebook o link pode ir direto na legenda, entao troca o 'link na bio' pelo endereco da pagina."""
+    if facebook and SITE:
+        bio = f"🔗 Link do produto nº {numero}: {SITE}"
+    else:
+        bio = f"🔗 Link na bio: toque no produto nº {numero} 🛒"
     if item.get("legenda"):
         return item["legenda"].replace("{numero}", str(numero)).replace("{bio}", bio)
     return (
@@ -89,7 +103,7 @@ def legenda_de(item, numero):
         "💬 Comenta EU QUERO que te mando o link!\n"
         "📲 Entra no nosso grupo do Telegram (link na bio) pra receber os achadinhos primeiro.\n\n"
         "⚠️ Preço pode mudar a qualquer momento.\n\n"
-        f"{item.get('hashtags', HASHTAGS)}"
+        f"{item.get('hashtags') or HASHTAGS_GERAIS + ' ' + HASHTAGS_LOJA.get(item.get('loja'), HASHTAGS_ML)}"
     )
 
 
@@ -185,22 +199,41 @@ def postar_story_foto(url_foto):
     return esperar_e_publicar(container)
 
 
-def postar(item, numero):
-    with tempfile.TemporaryDirectory() as pasta:
-        video = baixar_video(item, pasta)
-        reel = postar_video("REELS", video, legenda_de(item, numero))
-        log(f"  Reels publicado (id {reel})")
-        story = None
+def postar(item, numero, video):
+    reel = postar_video("REELS", video, legenda_de(item, numero))
+    log(f"  Reels publicado no Instagram (id {reel})")
+    story = None
+    try:
+        story = postar_video("STORIES", video)
+    except RuntimeError as e:
+        log(f"  story em video falhou ({e}); tentando com a foto")
         try:
-            story = postar_video("STORIES", video)
-        except RuntimeError as e:
-            log(f"  story em video falhou ({e}); tentando com a foto")
-            try:
-                story = postar_story_foto(item["foto"]) if item.get("foto") else None
-            except RuntimeError as e2:
-                log(f"  story com a foto tambem falhou ({e2})")
-        log(f"  Story publicado (id {story})" if story else "  Story NAO publicado")
-        return reel, story
+            story = postar_story_foto(item["foto"]) if item.get("foto") else None
+        except RuntimeError as e2:
+            log(f"  story com a foto tambem falhou ({e2})")
+    log(f"  Story publicado (id {story})" if story else "  Story NAO publicado")
+    return reel, story
+
+
+# ---------- Facebook (Reels na Pagina) ----------
+
+def postar_facebook(item, numero, video):
+    inicio = api("POST", f"{FB_PAGE}/video_reels", {"upload_phase": "start"})
+    tamanho = os.path.getsize(video)
+    with open(video, "rb") as f:
+        req = urllib.request.Request(
+            inicio.get("upload_url") or f"https://rupload.facebook.com/video-upload/{API_VER}/{inicio['video_id']}",
+            data=f.read(), method="POST",
+            headers={"Authorization": f"OAuth {TOKEN}", "offset": "0", "file_size": str(tamanho)})
+    try:
+        with urllib.request.urlopen(req, timeout=600) as r:
+            r.read()
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"upload no Facebook recusado ({e.code}): {e.read().decode(errors='replace')[:400]}")
+    api("POST", f"{FB_PAGE}/video_reels", {"upload_phase": "finish", "video_id": inicio["video_id"],
+                                           "video_state": "PUBLISHED", "description": legenda_de(item, numero, facebook=True)})
+    log(f"  Reels publicado no Facebook (id {inicio['video_id']})")
+    return inicio["video_id"]
 
 
 # ---------- Telegram ----------
@@ -251,7 +284,10 @@ def gerar_pagina(estado):
 
 def canais():
     """Canais configurados: so posta onde o segredo existe."""
-    return [c for c, ok in (("ig", TOKEN), ("tg", TG_TOKEN)) if ok]
+    return [c for c, ok in (("ig", TOKEN), ("fb", FB_TOKEN and FB_PAGE), ("tg", TG_TOKEN)) if ok]
+
+
+NOMES = {"ig": "Instagram", "fb": "Facebook", "tg": "Telegram"}
 
 
 def marca(canal, item):
@@ -331,20 +367,26 @@ def main():
             registro = {"numero": numero, "chave": chave(item), "em": agora.isoformat(), "produto": item["produto"],
                         "loja": item.get("loja", ""), "link": item["link"], "foto": item.get("foto", ""),
                         "preco": preco_de(item), "item": {k: v for k, v in item.items() if k not in ("quando", "_marca")}}
-        for canal in faltam:
-            try:
-                if canal == "ig":
-                    registro["reel"], registro["story"] = postar(item, numero)
-                else:
-                    enviar_telegram(item)
-                    log("  Telegram enviado")
-            except Exception as e:
-                log(f"ERRO no {'Instagram' if canal == 'ig' else 'Telegram'} ({chave(item)}): {e}")
-                continue
-            estado["feitos"].append(marca(canal, item))
-            if registro not in estado["publicados"]:
-                estado["contador"] = numero
-                estado["publicados"].append(registro)
+        with tempfile.TemporaryDirectory() as pasta:
+            video = None
+            for canal in faltam:
+                try:
+                    if canal in ("ig", "fb") and not video:
+                        video = baixar_video(item, pasta)  # o mesmo video serve para Instagram e Facebook
+                    if canal == "ig":
+                        registro["reel"], registro["story"] = postar(item, numero, video)
+                    elif canal == "fb":
+                        registro["facebook"] = postar_facebook(item, numero, video)
+                    else:
+                        enviar_telegram(item)
+                        log("  Telegram enviado")
+                except Exception as e:
+                    log(f"ERRO no {NOMES[canal]} ({chave(item)}): {e}")
+                    continue
+                estado["feitos"].append(marca(canal, item))
+                if registro not in estado["publicados"]:
+                    estado["contador"] = numero
+                    estado["publicados"].append(registro)
 
     if not simular:
         estado["feitos"] = estado["feitos"][-500:]
