@@ -450,7 +450,7 @@ def telegram(metodo, dados):
 def enviar_telegram(item):
     texto = f"{item.get('texto') or html.escape(item['produto'])}\n\n⚠️ Preço pode mudar a qualquer momento."
     dados = {"chat_id": TG_CHAT, "parse_mode": "HTML",
-             "reply_markup": {"inline_keyboard": [[{"text": "🛒 Quero o meu", "url": item["link"]}]]}}
+             "reply_markup": {"inline_keyboard": [[{"text": "🛒 Quero o meu", "url": item.get("link_tg") or item["link"]}]]}}
     if item.get("foto"):
         try:
             return telegram("sendPhoto", dict(dados, photo=item["foto"], caption=texto))
