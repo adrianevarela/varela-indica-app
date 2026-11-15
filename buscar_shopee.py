@@ -125,6 +125,15 @@ def main():
     simular = "--simular" in sys.argv
     if not (APP_ID and SEGREDO):
         sys.exit("Faltam os segredos SHOPEE_APP_ID e SHOPEE_SECRET (veja o LEIA-ME).")
+    if "--campos" in sys.argv:  # pergunta a propria API quais informacoes ela da sobre os produtos
+        tipos = consultar("{__schema{types{name fields{name}}}}", {})["__schema"]["types"]
+        for t in tipos:
+            if t.get("fields") and ("Product" in t["name"] or "Offer" in t["name"] or "Video" in t["name"]):
+                nomes = [f["name"] for f in t["fields"]]
+                log(f"{t['name']}: {', '.join(nomes)}")
+                if any("video" in n.lower() for n in nomes):
+                    log(f"  >>> TEM VIDEO em {t['name']}!")
+        return
     fila = ler_json(FILA, [])
     estado = ler_json(ESTADO, {"publicados": []})
     agora = datetime.now(BRASILIA)
