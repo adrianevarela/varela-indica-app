@@ -53,12 +53,12 @@
   .erro { color:var(--canc); font-weight:600; min-height:1.2em; }
   .lembrar { display:flex; gap:6px; align-items:center; color:var(--suave); font-size:.85rem; margin-bottom:10px; }
   .cartao { background:var(--card); border-radius:14px; padding:14px; box-shadow:0 1px 6px rgb(0 0 0/.06); }
-  .status { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+  .status { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:8px; }
   .status .cartao b { display:block; font-size:1.25rem; font-variant-numeric:tabular-nums; }
   .status .cartao span { font-size:.85rem; color:var(--suave); }
   .st-ok { border-left:4px solid var(--ok); } .st-pend { border-left:4px solid var(--pend); } .st-canc { border-left:4px solid var(--canc); }
   .grafico { position:relative; }
-  .grafico svg { width:100%; height:200px; display:block; }
+  .grafico svg { display:block; max-width:100%; height:auto; }
   .grafico .dica { position:absolute; pointer-events:none; background:var(--texto); color:var(--fundo); font-size:.8rem; padding:5px 8px; border-radius:8px; white-space:nowrap; transform:translate(-50%,-110%); display:none; font-variant-numeric:tabular-nums; }
   .barras-h .linha { display:grid; grid-template-columns:1fr auto; gap:4px 10px; margin-bottom:10px; font-size:.9rem; }
   .barras-h .trilho { grid-column:1 / -1; height:8px; background:var(--grade); border-radius:4px; overflow:hidden; }
@@ -270,10 +270,11 @@ function desenharGanhos(caixa, dados) {
         .map(([v, t]) => `<div class="kpi"><b>${v}</b><span>${t}</span></div>`).join("")}
     </div>
     <h2>💳 Situação das comissões (90 dias)</h2>
+    <p class="meta" style="margin-top:-6px">Pendente = aguardando o cliente receber · Concluída = confirmada pela Shopee · Cancelada = não será paga</p>
     <div class="status">
-      <div class="cartao st-pend"><b>${R$(porSit.pend)}</b><span>⏳ Pendente · ${qtdSit.pend} pedidos<br>aguardando entrega/confirmação</span></div>
-      <div class="cartao st-ok"><b>${R$(porSit.ok)}</b><span>✅ Concluída · ${qtdSit.ok} pedidos<br>confirmada pela Shopee</span></div>
-      <div class="cartao st-canc"><b>${R$(porSit.canc)}</b><span>✖ Cancelada · ${qtdSit.canc} pedidos<br>não será paga</span></div>
+      <div class="cartao st-pend"><b>${R$(porSit.pend)}</b><span>⏳ Pendente<br>${qtdSit.pend} pedidos</span></div>
+      <div class="cartao st-ok"><b>${R$(porSit.ok)}</b><span>✅ Concluída<br>${qtdSit.ok} pedidos</span></div>
+      <div class="cartao st-canc"><b>${R$(porSit.canc)}</b><span>✖ Cancelada<br>${qtdSit.canc} pedidos</span></div>
     </div>
     <h2>📈 Ganhos por dia (30 dias)</h2>
     <div class="cartao grafico" id="grafico"></div>
@@ -298,12 +299,13 @@ function desenharGanhos(caixa, dados) {
 }
 
 function desenharGrafico(el, dias) {
-  const L = 600, A = 200, m = { e: 44, d: 8, t: 12, b: 24 };
+  // desenha no tamanho real da tela (sem esticar as letras)
+  const L = Math.max(280, Math.round(el.clientWidth - 28)), A = 200, m = { e: 40, d: 6, t: 12, b: 24 };
   const max = Math.max(1, ...dias.map(d => d.v));
   const passo = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000].find(p => max / p <= 4) || 1000;
   const topo = Math.ceil(max / passo) * passo;
   const w = (L - m.e - m.d) / dias.length, y = v => A - m.b - (v / topo) * (A - m.b - m.t);
-  let svg = `<svg viewBox="0 0 ${L} ${A}" preserveAspectRatio="none" role="img" aria-label="Ganhos por dia nos últimos 30 dias">`;
+  let svg = `<svg viewBox="0 0 ${L} ${A}" width="${L}" height="${A}" role="img" aria-label="Ganhos por dia nos últimos 30 dias">`;
   for (let v = 0; v <= topo; v += passo)
     svg += `<line x1="${m.e}" x2="${L - m.d}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grade)" stroke-width="1"/>
             <text x="${m.e - 6}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--suave)">${v.toLocaleString("pt-BR")}</text>`;
