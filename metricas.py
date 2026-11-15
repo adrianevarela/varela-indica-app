@@ -66,6 +66,9 @@ def metricas_post(p):
             info.update(link_ig=m.get("permalink"), capa=m.get("thumbnail_url"),
                         curtidas=m.get("like_count"), comentarios=m.get("comments_count"))
         except RuntimeError as e:
+            if "does not exist" in str(e):
+                log(f"  nº {p['numero']}: post apagado no Instagram")
+                return {"numero": p["numero"], "apagado": True}
             log(f"  nº {p['numero']}: nao consegui ler o Reels ({str(e)[:100]})")
         ins = insights(p["reel"], ["views", "reach", "likes", "comments", "saved", "shares", "total_interactions"], "reel")
         info.update({
@@ -136,9 +139,12 @@ def main():
     for p in estado["publicados"]:
         if datetime.fromisoformat(p["em"]) < limite:
             continue
+        velho = (antigo.get("posts") or {}).get(str(p["numero"])) or {}
+        if velho.get("apagado"):  # post apagado: nao pergunta de novo
+            posts[str(p["numero"])] = velho
+            continue
         posts[str(p["numero"])] = metricas_post(p)
         # guarda o ultimo valor do story (depois de 24 h a Meta apaga)
-        velho = (antigo.get("posts") or {}).get(str(p["numero"])) or {}
         if "story" not in posts[str(p["numero"])] and velho.get("story"):
             posts[str(p["numero"])]["story"] = velho["story"]
     perfil = metricas_perfil(agora.date())
