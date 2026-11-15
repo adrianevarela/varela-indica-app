@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Painel Varela Indica</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icone-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#e91e63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Varela Indica">
 <style>
   :root { --fundo:#fff5f8; --card:#fff; --texto:#2b1b22; --suave:#7a6670; --linha:#f1dde5; --rosa:#e91e63; --verde:#1b8a4b; --alerta:#b45309; --alerta-fundo:#fff4e0; }
   @media (prefers-color-scheme: dark) { :root { --fundo:#1c1418; --card:#2a1f24; --texto:#fbeef3; --suave:#c4adb7; --linha:#3d2c33; --verde:#4ade80; --alerta:#fbbf24; --alerta-fundo:#3a2a10; } }
@@ -104,6 +110,9 @@ async function carregar() {
   if (!proximos.length || dias < 1) { aviso.style.display = "block"; aviso.textContent = "⚠️ A fila está acabando. Confira em Execuções se o robô da Shopee rodou às 6h."; }
   document.getElementById("atualizado").textContent = "Atualizado agora · " + fmt(agora);
 }
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+// ao voltar para o app, atualiza os dados
+document.addEventListener("visibilitychange", () => { if (!document.hidden) carregar().catch(() => {}); });
 carregar().catch(e => { document.getElementById("atualizado").textContent = "Não consegui carregar os dados (" + e.message + "). Tente recarregar."; });
 </script>
 </body>
