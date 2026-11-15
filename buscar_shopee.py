@@ -102,12 +102,13 @@ def reais(valor):
     return "R$ " + f"{float(valor):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-PEQUENAS = {"com", "de", "da", "do", "das", "dos", "para", "pra", "e", "a", "o", "em", "no", "na", "por", "|", "-", "+", "/"}
+PEQUENAS = {"com", "de", "da", "do", "das", "dos", "para", "pra", "e", "a", "o", "em", "no", "na", "por", "ou", "sem", "|", "-", "+", "/"}
 
 
 def nome_curto(nome, limite=36):
     nome = re.sub(r"^\s*(\[[^\]]*\]|【[^】]*】)\s*", "", nome)                     # [PROMO] no comeco
     nome = re.sub(r"^\s*(\d+\s*/\s*)*\d+\s*(pcs|pçs|peças|pecas|un|unid\w*|x)\b\.?\s*", "", nome, flags=re.I)
+    nome = re.sub(r"^\s*(kit)\s+(\d+\s*/\s*)+\d+\b", r"\1", nome, flags=re.I)                 # KIT 3/5/10 -> Kit
     nome = " ".join(nome.split())
     if sum(c.isupper() for c in nome) > 0.6 * max(1, sum(c.isalpha() for c in nome)):
         nome = nome.capitalize()                                                   # TUDO MAIUSCULO -> normal
