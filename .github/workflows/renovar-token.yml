@@ -1,0 +1,22 @@
+name: Renovar token do Instagram
+
+# O token do Instagram vence em 60 dias. Este robo renova sozinho todo dia 1 e 15.
+on:
+  schedule:
+    - cron: "0 12 1,15 * *"
+  workflow_dispatch:
+
+jobs:
+  renovar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Renovar e guardar o novo token
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          novo=$(curl -sf "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=$IG_TOKEN" | jq -r .access_token)
+          if [ -z "$novo" ] || [ "$novo" = "null" ]; then echo "::error::Nao consegui renovar o token. Gere um novo (veja o LEIA-ME)."; exit 1; fi
+          echo "::add-mask::$novo"
+          gh secret set IG_TOKEN --repo "${{ github.repository }}" --body "$novo"
+          echo "Token renovado por mais 60 dias."
