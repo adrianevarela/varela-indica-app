@@ -88,7 +88,19 @@
   .post .botoes { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
   .post .botoes a { font-size:.78rem; font-weight:600; text-decoration:none; padding:4px 10px; border-radius:8px; background:var(--fundo); border:1px solid var(--linha); color:var(--texto); }
   .delta { font-size:.8rem; font-weight:600; } .delta.up { color:var(--ok); } .delta.down { color:var(--canc); }
-  .topo-ganhos { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
+  /* edicao da fila */
+  .fila-item { display:flex; flex-direction:column; gap:4px; }
+  .acoes { display:flex; flex-wrap:wrap; gap:6px; padding:0 4px 4px; }
+  .acoes button, .btn2 { font:600 .78rem system-ui,sans-serif; padding:5px 10px; border-radius:8px; border:1px solid var(--linha); background:var(--card); color:var(--texto); cursor:pointer; }
+  .acoes button:hover, .btn2:hover { border-color:var(--rosa); }
+  .btn-add { background:var(--rosa); color:#fff; border:0; border-radius:10px; padding:10px 14px; font-weight:600; font-size:.9rem; cursor:pointer; margin-bottom:10px; }
+  dialog { border:0; border-radius:16px; padding:18px; width:min(420px, calc(100vw - 32px)); background:var(--card); color:var(--texto); box-shadow:0 10px 40px rgb(0 0 0/.3); }
+  dialog::backdrop { background:rgb(0 0 0/.45); }
+  dialog label { display:block; font-size:.85rem; color:var(--suave); margin-top:10px; }
+  dialog input, dialog select { width:100%; font-size:1rem; padding:9px 10px; border-radius:10px; border:1px solid var(--linha); background:var(--fundo); color:var(--texto); margin-top:4px; }
+  dialog .linha-botoes { display:flex; gap:8px; justify-content:flex-end; margin-top:16px; }
+  .config-edicao summary { cursor:pointer; color:var(--suave); font-size:.9rem; margin:18px 0 8px; }
+  .msg-edicao { font-weight:600; margin:6px 0; min-height:1.2em; }  .topo-ganhos { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px; }
 </style>
 </head>
 <body>
@@ -112,11 +124,36 @@
   <h2>🕐 Melhor horário</h2>
   <div class="cartao barras-h" id="horarios"></div>
   <h2>⏭️ Próximos posts</h2>
-  <div class="lista" id="proximos"></div>
-  <h2>✅ Já postados</h2>
+  <div class="msg-edicao" id="msg-edicao"></div>
+  <button class="btn-add" id="btn-add" hidden onclick="abrirAdicionar()">➕ Adicionar produto</button>
+  <div class="lista" id="proximos"></div>  <h2>✅ Já postados</h2>
   <div class="lista" id="postados"></div>
+  <details class="config-edicao" id="config-edicao">
+    <summary>⚙️ Editar a fila pelo app</summary>
+    <div class="cartao">
+      <div class="meta">Cole o token do GitHub <b>app-celular</b> (permissões Contents e Actions). Ele fica guardado só neste aparelho.</div>
+      <input type="password" id="token-gh" placeholder="github_pat_..." style="width:100%;font-size:1rem;padding:9px 10px;border-radius:10px;border:1px solid var(--linha);background:var(--fundo);color:var(--texto);margin:8px 0">
+      <button class="btn2" onclick="salvarToken()">Salvar</button> <button class="btn2" onclick="esquecerToken()">Esquecer token</button>
+      <div class="msg-edicao" id="msg-token"></div>
+    </div>
+  </details>
   </section>
-  <section id="aba-ganhos" hidden>
+  <dialog id="dlg-horario"><form method="dialog">
+    <div class="nome">🕐 Trocar horário</div><div class="meta" id="dlg-horario-prod"></div>
+    <label>Novo horário<select id="sel-horario"></select></label>
+    <div class="linha-botoes"><button class="btn2" value="cancelar">Cancelar</button><button class="btn-add" value="ok" style="margin:0">Mover</button></div>
+  </form></dialog>
+  <dialog id="dlg-add"><form method="dialog" id="form-add">
+    <div class="nome">➕ Adicionar produto</div>
+    <label>Link de afiliada *<input name="link" type="url" required placeholder="https://..."></label>
+    <label>Nome curto do produto *<input name="nome" required maxlength="60" placeholder="Ex.: Vestido midi canelado"></label>
+    <label>Preço agora (R$) *<input name="preco" required inputmode="decimal" placeholder="49,90"></label>
+    <label>Preço antes (R$) — opcional<input name="antes" inputmode="decimal" placeholder="89,90"></label>
+    <label>Link da foto — opcional<input name="foto" type="url" placeholder="https://...jpg"></label>
+    <label>Loja<select name="loja"><option>Shein</option><option>Mercado Livre</option><option>Amazon</option><option>Shopee</option><option>Outra</option></select></label>
+    <label>Horário<select name="quando" id="sel-add-horario"></select></label>
+    <div class="linha-botoes"><button class="btn2" value="cancelar" formnovalidate>Cancelar</button><button class="btn-add" value="ok" style="margin:0">Adicionar</button></div>
+  </form></dialog>  <section id="aba-ganhos" hidden>
     <form class="senha" id="form-senha" onsubmit="event.preventDefault(); abrirGanhos(this.senha.value, this.lembrar.checked)">
       <div class="nome">🔒 Ganhos protegidos</div>
       <div class="meta">Digite a senha que você salvou no GitHub (PAINEL_SENHA).</div>
@@ -145,6 +182,7 @@ const num = v => v == null ? "—" : Number(v).toLocaleString("pt-BR");
 const chaveDiaP = d => d.toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" });
 const horaBR = d => +d.toLocaleString("pt-BR", { hour: "2-digit", hour12: false, timeZone: "America/Sao_Paulo" });
 let DADOS = { fila: [], estado: {}, metricas: {} };  // usados tambem pela aba Ganhos
+let FILA_LOCAL = null;  // fila recem-editada pelo app
 
 function linha(p, extra) {
   const d = desconto(p.texto);
@@ -225,7 +263,8 @@ function contagem(proximos) {
 async function carregar() {
   const pegar = n => fetch(BASE + n + "?t=" + Date.now()).then(r => r.ok ? r.json() : {}).catch(() => ({}));
   const [fila, estado, metricas, alertas] = await Promise.all([pegar("fila.json"), pegar("estado.json"), pegar("docs/metricas.json"), alertasGitHub()]);
-  DADOS = { fila: Array.isArray(fila) ? fila : [], estado, metricas };
+  const filaUsada = (FILA_LOCAL && Date.now() - FILA_LOCAL.t < 6 * 60e3) ? FILA_LOCAL.itens : fila;
+  DADOS = { fila: Array.isArray(filaUsada) ? filaUsada : [], estado, metricas };
   const agora = new Date();
   const feitos = new Set(estado.feitos || []);
   const jaFoi = i => [...feitos].some(f => f.endsWith(`| ${i.quando} | ${i.produto}`));
@@ -298,9 +337,17 @@ async function carregar() {
       + `<p class="meta">Na aba 💰 Ganhos você vê também qual horário vende mais.</p>`
     : `<div class="vazio">Aparece quando houver visualizações medidas.</div>`;
 
-  document.getElementById("proximos").innerHTML = proximos.map(p => linha(p, {
-    meta: fmt(quando(p.quando)), cls: chaveDiaP(quando(p.quando)) === hojeStr ? "hoje" : ""
-  })).join("") || `<div class="vazio">Fila vazia — o robô da Shopee preenche às 6h.</div>`;
+  const podeEditar = !!tokenGH();
+  document.getElementById("btn-add").hidden = !podeEditar;
+  document.getElementById("proximos").innerHTML = proximos.map(p => {
+    const html = linha(p, { meta: fmt(quando(p.quando)), cls: chaveDiaP(quando(p.quando)) === hojeStr ? "hoje" : "" });
+    if (!podeEditar) return html;
+    const k = esc(JSON.stringify([p.quando, p.produto])).replace(/'/g, "&#39;");
+    return `<div class="fila-item">${html}<div class="acoes">
+      <button onclick='pular(${k})'>⏭ Pular</button>
+      <button onclick='trocarHorario(${k})'>🕐 Trocar horário</button>
+      <button onclick='postarAgora(${k})'>🚀 Postar agora</button></div></div>`;
+  }).join("") || `<div class="vazio">Fila vazia — o robô da Shopee preenche às 6h.</div>`;
 
   document.getElementById("postados").innerHTML = postados.slice(0, 30).map(p => cartaoPost(
     Object.assign({}, p, { foto: p.foto || (p.item || {}).foto }), mp[p.numero] || {}, feitos)).join("")
@@ -314,6 +361,115 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) carr
 carregar().catch(e => { document.getElementById("atualizado").textContent = "Não consegui carregar os dados (" + e.message + "). Tente recarregar."; });
 </script>
 <script>
+// ---------- editar a fila pelo app (usa o token "app-celular", guardado so neste aparelho) ----------
+const REPO_API = "https://api.github.com/repos/adrianevarela/varela-indica-app";
+function tokenGH() { try { return localStorage.getItem("vi-gh-token") || ""; } catch (e) { return ""; } }
+function msg(t, id = "msg-edicao") { const el = document.getElementById(id); el.textContent = t; if (t) setTimeout(() => { if (el.textContent === t) el.textContent = ""; }, 8000); }
+const gh = (caminho, opcoes = {}) => fetch(REPO_API + caminho, Object.assign({}, opcoes, {
+  headers: Object.assign({ Authorization: "Bearer " + tokenGH(), Accept: "application/vnd.github+json" }, opcoes.headers || {}) }));
+const paraB64 = s => { const b = new TextEncoder().encode(s); let x = ""; b.forEach(c => x += String.fromCharCode(c)); return btoa(x); };
+const deB64 = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g, "")), c => c.charCodeAt(0)));
+
+async function salvarToken() {
+  const t = document.getElementById("token-gh").value.trim();
+  if (!t) return;
+  try { localStorage.setItem("vi-gh-token", t); } catch (e) {}
+  const r = await gh("");
+  if (!r.ok) { msg("❌ Token recusado pelo GitHub. Confira se copiou certo.", "msg-token"); return; }
+  const repo = await r.json();
+  msg(repo.permissions && repo.permissions.push ? "✅ Pronto! Os botões de edição apareceram nos próximos posts." : "⚠️ O token entrou, mas não tem permissão de escrita (Contents: Read and write).", "msg-token");
+  document.getElementById("token-gh").value = "";
+  carregar();
+}
+function esquecerToken() { try { localStorage.removeItem("vi-gh-token"); } catch (e) {} msg("Token apagado deste aparelho.", "msg-token"); carregar(); }
+
+async function lerFila() {
+  const r = await gh("/contents/fila.json?ref=main&t=" + Date.now());
+  if (!r.ok) throw new Error("não consegui ler a fila (" + r.status + ")");
+  const j = await r.json();
+  return { sha: j.sha, itens: JSON.parse(deB64(j.content)) };
+}
+async function salvarFila(itens, sha, mensagem) {
+  itens.sort((a, b) => a.quando < b.quando ? -1 : 1);
+  const r = await gh("/contents/fila.json", { method: "PUT", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: mensagem + " (pelo app)", sha, content: paraB64(JSON.stringify(itens, null, 1)) }) });
+  if (!r.ok) throw new Error(r.status === 409 ? "a fila mudou agora há pouco, tente de novo" : "o GitHub recusou (" + r.status + ")");
+  FILA_LOCAL = { t: Date.now(), itens };
+  await carregar();
+}
+const achar = (itens, [q, p]) => itens.findIndex(i => i.quando === q && i.produto === p);
+
+function horariosVazios(itens, incluir) {
+  const ocupados = new Set(itens.map(i => i.quando));
+  ((DADOS.estado || {}).publicados || []).forEach(p => ocupados.add((p.chave || "").split(" | ")[0]));
+  const agora = new Date(), lista = [];
+  for (let d = 0; d < 10; d++) for (const h of [11, 15, 20]) {
+    const dia = new Date(agora.getTime() + d * 864e5).toLocaleDateString("sv-SE", { timeZone: "America/Sao_Paulo" });
+    const k = `${dia} ${h}:00`, t = quando(k);
+    if (t > agora && (!ocupados.has(k) || k === incluir)) lista.push(k);
+  }
+  return lista;
+}
+const opcoes = l => l.map(k => `<option value="${k}">${fmt(quando(k))}</option>`).join("");
+
+async function pular(chave) {
+  if (!confirm(`Tirar "${chave[1]}" da fila? O robô da Shopee coloca outro produto nesse horário às 6h.`)) return;
+  try { const { sha, itens } = await lerFila(); const i = achar(itens, chave); if (i < 0) throw new Error("o produto já saiu da fila");
+    itens.splice(i, 1); await salvarFila(itens, sha, `Pula ${chave[1]}`); msg("⏭ Produto tirado da fila.");
+  } catch (e) { msg("❌ " + e.message); }
+}
+
+async function trocarHorario(chave) {
+  let fila; try { fila = await lerFila(); } catch (e) { msg("❌ " + e.message); return; }
+  const livres = horariosVazios(fila.itens);
+  if (!livres.length) { msg("Não há horários vazios nos próximos 10 dias."); return; }
+  document.getElementById("dlg-horario-prod").textContent = chave[1] + " · hoje em " + fmt(quando(chave[0]));
+  document.getElementById("sel-horario").innerHTML = opcoes(livres);
+  const dlg = document.getElementById("dlg-horario");
+  dlg.onclose = async () => {
+    if (dlg.returnValue !== "ok") return;
+    try { const { sha, itens } = await lerFila(); const i = achar(itens, chave); if (i < 0) throw new Error("o produto já saiu da fila");
+      itens[i].quando = document.getElementById("sel-horario").value;
+      await salvarFila(itens, sha, `Move ${chave[1]} para ${itens[i].quando}`); msg("🕐 Horário trocado.");
+    } catch (e) { msg("❌ " + e.message); }
+  };
+  dlg.showModal();
+}
+
+async function postarAgora(chave) {
+  if (!confirm(`Publicar "${chave[1]}" AGORA no Instagram, Story, Facebook e Telegram?`)) return;
+  try { const { itens } = await lerFila(); const i = achar(itens, chave); if (i < 0) throw new Error("o produto já saiu da fila");
+    const r = await gh("/actions/workflows/postar.yml/dispatches", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ref: "main", inputs: { modo: "teste", item: String(i + 1) } }) });
+    if (!r.ok) throw new Error(r.status === 403 ? "o token não tem a permissão Actions: Read and write" : "o GitHub recusou (" + r.status + ")");
+    msg("🚀 Enviado! Em uns 3 minutos o post aparece nos canais.");
+  } catch (e) { msg("❌ " + e.message); }
+}
+
+async function abrirAdicionar() {
+  let fila; try { fila = await lerFila(); } catch (e) { msg("❌ " + e.message); return; }
+  const livres = horariosVazios(fila.itens);
+  if (!livres.length) { msg("Não há horários vazios nos próximos 10 dias. Pule um produto primeiro."); return; }
+  document.getElementById("sel-add-horario").innerHTML = opcoes(livres);
+  const dlg = document.getElementById("dlg-add"), form = document.getElementById("form-add");
+  form.reset();
+  dlg.onclose = async () => {
+    if (dlg.returnValue !== "ok") return;
+    const d = Object.fromEntries(new FormData(form));
+    const valor = s => { const n = parseFloat(String(s || "").replace(/[^\d,.]/g, "").replace(/\.(?=\d{3})/g, "").replace(",", ".")); return isNaN(n) ? null : n; };
+    const brl2 = n => "R$ " + n.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const agora = valor(d.preco), antes = valor(d.antes);
+    if (!agora) { msg("❌ Preço inválido."); return; }
+    const desc = antes && antes > agora ? Math.round((1 - agora / antes) * 100) : 0;
+    const nome = d.nome.trim();
+    const item = { quando: d.quando, produto: nome, loja: d.loja, foto: d.foto || "", video: "", link: d.link.trim(), preco: brl2(agora),
+      texto: `🛍️ <b>${esc(nome)}</b>\n\n` + (desc ? `💰 De <s>${brl2(antes)}</s> por <b>${brl2(agora)}</b> (-${desc}%)` : `💰 Por <b>${brl2(agora)}</b>`) };
+    try { const { sha, itens } = await lerFila(); itens.push(item); await salvarFila(itens, sha, `Adiciona ${nome}`); msg("➕ Produto adicionado à fila!"); }
+    catch (e) { msg("❌ " + e.message); }
+  };
+  dlg.showModal();
+}
+</script><script>
 // ---------- aba Ganhos (dados criptografados; so abrem com a senha) ----------
 const CHAVE_SENHA = "vi-painel-senha";
 const guardar = { ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
