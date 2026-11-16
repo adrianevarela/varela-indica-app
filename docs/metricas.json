@@ -1,40 +1,62 @@
 {
- "gerado": "2026-11-15T20:02:10.721429-03:00",
+ "gerado": "2026-11-16T04:20:02.686330-03:00",
  "posts": {
   "1": {
    "numero": 1,
-   "link_fb": "https://www.facebook.com/reel/1845375093325695/",
-   "views_fb": 7
+   "apagado": true
   },
   "2": {
    "numero": 2,
-   "link_fb": "https://www.facebook.com/reel/1476119241067376/",
-   "views_fb": 1
+   "apagado": true
+  },
+  "3": {
+   "numero": 3,
+   "link_ig": "https://www.instagram.com/reel/Dfx84TcCser/",
+   "capa": "https://scontent-iad3-1.cdninstagram.com/v/t51.71878-15/907798129_2661674947601127_2560542236964324106_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=TmR3pa2sxkEQ7kNvwEhB3SL&_nc_oc=Adob1T7jq6dqDWPsXj1E9q6SHMhfRvGPkjVNnH2ermmHLX0TRwbblxxzBsDXpGuPvlw&_nc_zt=23&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AIZKd-4EAAAA&_nc_gid=FPuuqJTST4GqbtAvu0Gu2g&_nc_tpa=Q5bMBQIJyZL85T_cX3xhQhGMd--IOvJYC7JHRusOkRBGjEcMXNoRX6RWR3j4LdvLmMK8zA4O1gGkEyLJvQ&_nc_ct=RQosPBUKFQQAAAA&oh=00_AQSnb2YszAutmw8tR1iZ_djMTNlyRMwCES-FQRL5TmHSmA&oe=6B009114",
+   "curtidas": 1,
+   "comentarios": 0,
+   "views": 11,
+   "alcance": 8,
+   "salvos": 0,
+   "compartilhamentos": 0,
+   "interacoes": 1,
+   "story": {
+    "alcance": 6,
+    "respostas": 0,
+    "interacoes": 1
+   },
+   "link_fb": "https://www.facebook.com/reel/2789407554794739/",
+   "views_fb": 2
   }
  },
  "perfil": {
   "id": "17841454095564952",
   "followers_count": 241,
-  "media_count": 91,
+  "media_count": 92,
   "username": "varelaindica",
   "ontem": {
-   "reach": 1,
-   "views": 0,
-   "profile_views": 0,
-   "website_clicks": 0,
-   "accounts_engaged": 0
+   "reach": 12,
+   "views": 24,
+   "profile_views": 2,
+   "website_clicks": 2,
+   "accounts_engaged": 1
   },
-  "hoje": {
-   "reach": 1,
-   "views": 3,
-   "profile_views": 1,
-   "website_clicks": 1,
-   "accounts_engaged": 0
-  }
+  "hoje": {}
  },
  "telegram": 2,
  "historico": {
   "2026-11-15": {
+   "seguidores": 241,
+   "telegram": 2,
+   "conta": {
+    "reach": 12,
+    "views": 24,
+    "profile_views": 2,
+    "website_clicks": 2,
+    "accounts_engaged": 1
+   }
+  },
+  "2026-11-16": {
    "seguidores": 241,
    "telegram": 2
   }
