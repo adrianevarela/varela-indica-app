@@ -1,4 +1,4 @@
-"""Varela Indica - responde sozinho os comentarios "EU QUERO" dos Reels.
+"""Varela Indica - responde sozinho TODOS os comentarios dos Reels (pedido de link, pergunta ou elogio).
 
 Roda a cada 10 minutos. Para cada Reels dos ultimos 7 dias:
   1. le os comentarios novos;
@@ -27,6 +27,15 @@ PUBLICAS_DM = [
     "@{u} Oii! 💖 Te mandei o link no direct! Se não aparecer, olha em solicitações de mensagem 😉",
     "@{u} Mandei no seu direct! 💌 Corre que o preço pode mudar 🏃‍♀️",
     "@{u} Já tá no seu direct! 🛒💖",
+]
+PERGUNTAS = [
+    "@{u} Oii! 💖 Já já te respondo! Enquanto isso, o link tá na bio: produto nº {n} 🛒",
+    "@{u} Boa pergunta! Já te respondo 😉 O link tá na bio, nº {n} 🛒",
+]
+OUTROS = [
+    "@{u} Obrigada! 💖 O link tá na bio: produto nº {n} 🛒",
+    "@{u} 💖💖 Se quiser o seu, o link tá na bio, nº {n} 🛒",
+    "@{u} Também amei! 😍 Link na bio, produto nº {n} 🛒",
 ]
 PUBLICAS_BIO = [
     "@{u} Oii! 💖 O link tá na bio: toca no produto nº {n} 🛒",
@@ -75,12 +84,19 @@ def main():
             if "does not exist" not in str(e):
                 log(f"nº {p['numero']}: nao consegui ler os comentarios ({str(e)[:150]})")
             continue
+        ja_respondidos = set(reg.setdefault("pessoas", {}).get(str(p["numero"]), []))
         for c in comentarios:
-            if c["id"] in feitos or not PEDIDO.search(c.get("text") or "") or (c.get("username") or "").lower() == eu:
-                continue
             usuario = c.get("username") or ""
+            if c["id"] in feitos or usuario.lower() == eu:
+                continue
+            if usuario.lower() in ja_respondidos:  # uma resposta por pessoa em cada post
+                feitos.add(c["id"])
+                reg["respondidos"].append(c["id"])
+                continue
+            texto = c.get("text") or ""
+            tipo = "pedido" if PEDIDO.search(texto) else "pergunta" if "?" in texto else "outro"
             direct = False
-            if reg.get("direct_liberado") is not False or random.random() < 0.1:  # de vez em quando testa se liberou
+            if tipo == "pedido" and (reg.get("direct_liberado") is not False or random.random() < 0.1):  # de vez em quando testa se liberou
                 try:
                     mandar_direct(c["id"], p, p.get("item") or {})
                     direct = True
@@ -91,7 +107,7 @@ def main():
                     if reg.get("direct_liberado") is not False:
                         log(f"Direct recusado pela Meta (normal enquanto o app nao for aprovado): {str(e)[:150]}")
                     reg["direct_liberado"] = False
-            modelo = random.choice(PUBLICAS_DM if direct else PUBLICAS_BIO)
+            modelo = random.choice(PUBLICAS_DM if direct else PUBLICAS_BIO if tipo == "pedido" else PERGUNTAS if tipo == "pergunta" else OUTROS)
             try:
                 graph("POST", f"{c['id']}/replies", message=modelo.format(u=usuario, n=p["numero"]))
             except RuntimeError as e:
@@ -100,15 +116,19 @@ def main():
                     continue  # tenta de novo na proxima rodada
             feitos.add(c["id"])
             reg["respondidos"].append(c["id"])
-            conta = reg["por_post"].setdefault(str(p["numero"]), {"pedidos": 0, "direct": 0})
-            conta["pedidos"] += 1
+            ja_respondidos.add(usuario.lower())
+            reg["pessoas"][str(p["numero"])] = sorted(ja_respondidos)
+            conta = reg["por_post"].setdefault(str(p["numero"]), {"pedidos": 0, "direct": 0, "comentarios": 0, "perguntas": 0})
+            conta["comentarios"] = conta.get("comentarios", 0) + 1
+            conta["pedidos"] += int(tipo == "pedido")
+            conta["perguntas"] = conta.get("perguntas", 0) + int(tipo == "pergunta")
             conta["direct"] += int(direct)
             novos += 1
-            log(f"nº {p['numero']}: respondido {'(direct + publico)' if direct else '(publico)'}")
+            log(f"nº {p['numero']}: respondido ({tipo}{', com direct' if direct else ''})")
     reg["respondidos"] = reg["respondidos"][-3000:]
     reg["atualizado"] = agora.isoformat()
     salvar_json(RESPOSTAS, reg)
-    log(f"{novos} pedidos de link respondidos nesta rodada.")
+    log(f"{novos} comentarios respondidos nesta rodada.")
 
 
 if __name__ == "__main__":
