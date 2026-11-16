@@ -1,5 +1,5 @@
 {
- "contador": 3,
+ "contador": 4,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -9,7 +9,10 @@
   "tg | 2026-11-16 11:00 | caneca Kit Garrafa Térmica Vacuum",
   "ig | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox",
   "tg | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox",
-  "fb | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox"
+  "fb | 2026-11-15 20:00 | ROMANTIC CROWN Copo Térmico Inox",
+  "ig | 2026-11-16 11:00 | Kit Hidrabene Clareador Skincare",
+  "fb | 2026-11-16 11:00 | Kit Hidrabene Clareador Skincare",
+  "tg | 2026-11-16 11:00 | Kit Hidrabene Clareador Skincare"
  ],
  "publicados": [
   {
@@ -80,6 +83,29 @@
    "reel": "18001411785047172",
    "story": "18113460239614105",
    "facebook": "2789407554794739"
+  },
+  {
+   "numero": 4,
+   "chave": "2026-11-16 11:00 | Kit Hidrabene Clareador Skincare",
+   "em": "2026-11-16T11:01:41.274662-03:00",
+   "produto": "Kit Hidrabene Clareador Skincare",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/4B1XzUnT8j",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lx-mt45q21kcvt09d",
+   "preco": "R$ 71,16",
+   "item": {
+    "produto": "Kit Hidrabene Clareador Skincare",
+    "loja": "Shopee",
+    "itemId": "58264684239",
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lx-mt45q21kcvt09d",
+    "video": "",
+    "link": "https://s.shopee.com.br/4B1XzUnT8j",
+    "preco": "R$ 71,16",
+    "texto": "🧡 <b>Kit Hidrabene Clareador Skincare</b>\n\nKit Hidrabene Clareador Skincare Clareador Facial: Sabonete, Protetor 70 FPS e Sérum Multicorretivo\n\n💰 De <s>R$ 161,73</s> por <b>R$ 71,16</b> (-56%)\n⭐ 4,9 · +15 mil vendidos"
+   },
+   "reel": "18121786355001217",
+   "story": "18174054817462903",
+   "facebook": "1127125733359405"
   }
  ]
 }
