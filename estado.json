@@ -1,5 +1,5 @@
 {
- "contador": 5,
+ "contador": 6,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -15,7 +15,10 @@
   "tg | 2026-11-16 11:00 | Kit Hidrabene Clareador Skincare",
   "ig | 2026-11-16 15:00 | Areia Catbio Biodegradável 4 Kg",
   "fb | 2026-11-16 15:00 | Areia Catbio Biodegradável 4 Kg",
-  "tg | 2026-11-16 15:00 | Areia Catbio Biodegradável 4 Kg"
+  "tg | 2026-11-16 15:00 | Areia Catbio Biodegradável 4 Kg",
+  "ig | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
+  "fb | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
+  "tg | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem"
  ],
  "publicados": [
   {
@@ -132,6 +135,29 @@
    "reel": "18078056327767844",
    "story": "18116125682601640",
    "facebook": "1494600732550172"
+  },
+  {
+   "numero": 6,
+   "chave": "2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
+   "em": "2026-11-16T20:02:09.832523-03:00",
+   "produto": "KIT 3/5/10 Saco a Vácuo com ou sem",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/3B90nfDkux",
+   "foto": "https://cf.shopee.com.br/file/cn-11134207-820l4-mt56zwbyjeve83",
+   "preco": "R$ 16,58",
+   "item": {
+    "produto": "KIT 3/5/10 Saco a Vácuo com ou sem",
+    "loja": "Shopee",
+    "itemId": "49117890730",
+    "foto": "https://cf.shopee.com.br/file/cn-11134207-820l4-mt56zwbyjeve83",
+    "video": "",
+    "link": "https://s.shopee.com.br/3B90nfDkux",
+    "preco": "R$ 16,58",
+    "texto": "🧡 <b>KIT 3/5/10 Saco a Vácuo com ou sem</b>\n\nKIT 3/5/10 Saco a Vácuo com ou sem Bomba Manual para Roupas Organização Mala Viagem Guarda Roupas\n\n💰 De <s>R$ 40,44</s> por <b>R$ 16,58</b> (-59%)\n⭐ 4,9 · +8 mil vendidos"
+   },
+   "reel": "18242777821317723",
+   "story": "17907209700601414",
+   "facebook": "1908501703661194"
   }
  ]
 }
