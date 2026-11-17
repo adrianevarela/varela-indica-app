@@ -381,14 +381,23 @@ def postar_story_foto(url_foto):
     return esperar_e_publicar(container)
 
 
-def video_story(video, numero):
-    """O Instagram nao deixa app colocar figurinha de link: escreve no video onde achar o link."""
+def link_curto(item):
+    """Link do produto sem 'https://' (cabe no story e nao tem ':' que quebra o ffmpeg)."""
+    link = re.sub(r"^https?://(www\.)?", "", (item or {}).get("link", "")).rstrip("/")
+    return link if link and len(link) <= 32 and re.fullmatch(r"[A-Za-z0-9./_-]+", link) else ""
+
+
+def video_story(video, numero, item=None):
+    """O Instagram nao deixa app colocar figurinha de link: escreve no video o link do produto."""
     saida = os.path.join(os.path.dirname(video), "story.mp4")
     fonte = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
     # duas linhas que cabem na largura (o video e sempre 1080x1920), abaixo do nome do perfil no topo do story
     estilo = f"fontfile={fonte}:fontcolor=white:box=1:boxcolor=0xE91E63@0.92:x=(w-text_w)/2"
     faixa = (f"drawtext={estilo}:text='LINK NA BIO':fontsize=80:boxborderw=24:y=290,"
              f"drawtext={estilo}:text='produto nº {numero}':fontsize=60:boxborderw=18:y=420")
+    link = link_curto(item)
+    if link:  # link do item escrito por extenso (nao fica clicavel, mas da pra digitar)
+        faixa += f",drawtext={estilo}:text='{link}':fontsize=48:boxborderw=16:y=530"
     try:
         ffmpeg("-i", video, "-vf", faixa, "-t", "60", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
                "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", saida)
@@ -403,7 +412,7 @@ def postar(item, numero, video):
     log(f"  Reels publicado no Instagram (id {reel})")
     story = None
     try:
-        story = postar_video("STORIES", video_story(video, numero))
+        story = postar_video("STORIES", video_story(video, numero, item))
     except RuntimeError as e:
         log(f"  story em video falhou ({e}); tentando com a foto")
         try:
@@ -536,7 +545,7 @@ def main():
         os.makedirs(os.path.join(PASTA, "previa"), exist_ok=True)
         with tempfile.TemporaryDirectory() as pasta:
             video = preparar_video(item, 99, pasta)
-            story = video_story(video, 99)
+            story = video_story(video, 99, item)
             for origem, nome in ((video, "reels.mp4"), (story, "story.mp4")):
                 with open(origem, "rb") as a, open(os.path.join(PASTA, "previa", nome), "wb") as b:
                     b.write(a.read())
