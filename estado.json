@@ -1,5 +1,5 @@
 {
- "contador": 7,
+ "contador": 8,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -21,7 +21,10 @@
   "tg | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
   "ig | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
   "fb | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
-  "tg | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa"
+  "tg | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
+  "ig | 2026-11-17 15:00 | Ultra hidratação efeito teia",
+  "fb | 2026-11-17 15:00 | Ultra hidratação efeito teia",
+  "tg | 2026-11-17 15:00 | Ultra hidratação efeito teia"
  ],
  "publicados": [
   {
@@ -184,6 +187,29 @@
    "reel": "18162279961460643",
    "story": "17903355081447953",
    "facebook": "29562081933423278"
+  },
+  {
+   "numero": 8,
+   "chave": "2026-11-17 15:00 | Ultra hidratação efeito teia",
+   "em": "2026-11-17T15:01:31.238971-03:00",
+   "produto": "Ultra hidratação efeito teia",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/40i7nCWRcb",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-8258h-mr1ynaykoao016",
+   "preco": "R$ 39,97",
+   "item": {
+    "produto": "Ultra hidratação efeito teia",
+    "loja": "Shopee",
+    "itemId": "25946709329",
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-8258h-mr1ynaykoao016",
+    "video": "",
+    "link": "https://s.shopee.com.br/40i7nCWRcb",
+    "preco": "R$ 39,97",
+    "texto": "🧡 <b>Ultra hidratação efeito teia</b>\n\nULTRA HIDRATAÇÃO EFEITO TEIA COM ÓLEOS MARROQUINOS - OURO MARROQUINO - FINA MARIA PROFISSIONAL\n\n💰 De <s>R$ 79,94</s> por <b>R$ 39,97</b> (-50%)\n⭐ 4,9 · +34 mil vendidos"
+   },
+   "reel": "17941082082400487",
+   "story": "18122034233320467",
+   "facebook": "3063799313962874"
   }
  ]
 }
