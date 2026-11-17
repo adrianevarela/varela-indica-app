@@ -1,5 +1,5 @@
 {
- "contador": 6,
+ "contador": 7,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -18,7 +18,10 @@
   "tg | 2026-11-16 15:00 | Areia Catbio Biodegradável 4 Kg",
   "ig | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
   "fb | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
-  "tg | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem"
+  "tg | 2026-11-16 20:00 | KIT 3/5/10 Saco a Vácuo com ou sem",
+  "ig | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
+  "fb | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
+  "tg | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa"
  ],
  "publicados": [
   {
@@ -158,6 +161,29 @@
    "reel": "18242777821317723",
    "story": "17907209700601414",
    "facebook": "1908501703661194"
+  },
+  {
+   "numero": 7,
+   "chave": "2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
+   "em": "2026-11-17T11:01:36.771070-03:00",
+   "produto": "Ração Úmida Friskies 85g - Caixa",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/AAIl9bD6ct",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820l6-mqce0aqfsikhfd",
+   "preco": "R$ 39,90",
+   "item": {
+    "produto": "Ração Úmida Friskies 85g - Caixa",
+    "loja": "Shopee",
+    "itemId": "45054396139",
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820l6-mqce0aqfsikhfd",
+    "video": "",
+    "link": "https://s.shopee.com.br/AAIl9bD6ct",
+    "preco": "R$ 39,90",
+    "texto": "🧡 <b>Ração Úmida Friskies 85g - Caixa</b>\n\nRação Úmida Friskies 85g - Caixa com 15 unidades\n\n💰 De <s>R$ 79,80</s> por <b>R$ 39,90</b> (-50%)\n⭐ 5,0 · +16 mil vendidos"
+   },
+   "reel": "18162279961460643",
+   "story": "17903355081447953",
+   "facebook": "29562081933423278"
   }
  ]
 }
