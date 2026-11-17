@@ -1,5 +1,5 @@
 {
- "contador": 8,
+ "contador": 9,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -24,7 +24,10 @@
   "tg | 2026-11-17 11:00 | Ração Úmida Friskies 85g - Caixa",
   "ig | 2026-11-17 15:00 | Ultra hidratação efeito teia",
   "fb | 2026-11-17 15:00 | Ultra hidratação efeito teia",
-  "tg | 2026-11-17 15:00 | Ultra hidratação efeito teia"
+  "tg | 2026-11-17 15:00 | Ultra hidratação efeito teia",
+  "ig | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
+  "fb | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
+  "tg | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios"
  ],
  "publicados": [
   {
@@ -210,6 +213,29 @@
    "reel": "17941082082400487",
    "story": "18122034233320467",
    "facebook": "3063799313962874"
+  },
+  {
+   "numero": 9,
+   "chave": "2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
+   "em": "2026-11-17T20:02:08.394044-03:00",
+   "produto": "Fadvan 5D W Extensões De Cílios",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1Bz2FkRTM",
+   "foto": "https://cf.shopee.com.br/file/cn-11134207-820l4-mv13hxd19hxd38",
+   "preco": "R$ 19,99",
+   "item": {
+    "produto": "Fadvan 5D W Extensões De Cílios",
+    "loja": "Shopee",
+    "itemId": "21235699753",
+    "foto": "https://cf.shopee.com.br/file/cn-11134207-820l4-mv13hxd19hxd38",
+    "video": "",
+    "link": "https://s.shopee.com.br/1Bz2FkRTM",
+    "preco": "R$ 19,99",
+    "texto": "🧡 <b>Fadvan 5D W Extensões De Cílios</b>\n\nFadvan 5D W Extensões De Cílios Em Forma De 0.07 C/D Faux Mink Natural Lashes Profissionais Suaves\n\n💰 De <s>R$ 58,79</s> por <b>R$ 19,99</b> (-66%)\n⭐ 4,8 · +23 mil vendidos"
+   },
+   "reel": "18130840714892598",
+   "story": "17914573464592842",
+   "facebook": "2426656464805604"
   }
  ]
 }
