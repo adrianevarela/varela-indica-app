@@ -1,5 +1,5 @@
 {
- "contador": 9,
+ "contador": 10,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -27,7 +27,9 @@
   "tg | 2026-11-17 15:00 | Ultra hidratação efeito teia",
   "ig | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
   "fb | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
-  "tg | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios"
+  "tg | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
+  "fb | 2026-11-18 11:00 | Creatina Suplemento Monohidratada",
+  "tg | 2026-11-18 11:00 | Creatina Suplemento Monohidratada"
  ],
  "publicados": [
   {
@@ -236,6 +238,27 @@
    "reel": "18130840714892598",
    "story": "17914573464592842",
    "facebook": "2426656464805604"
+  },
+  {
+   "numero": 10,
+   "chave": "2026-11-18 11:00 | Creatina Suplemento Monohidratada",
+   "em": "2026-11-18T11:01:33.523746-03:00",
+   "produto": "Creatina Suplemento Monohidratada",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/9Kje9ZSni5",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820m9-mpwm1rqctatfc5",
+   "preco": "R$ 33,90",
+   "item": {
+    "produto": "Creatina Suplemento Monohidratada",
+    "loja": "Shopee",
+    "itemId": "9212570285",
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820m9-mpwm1rqctatfc5",
+    "video": "",
+    "link": "https://s.shopee.com.br/9Kje9ZSni5",
+    "preco": "R$ 33,90",
+    "texto": "🧡 <b>Creatina Suplemento Monohidratada</b>\n\nCreatina Suplemento Monohidratada em Pó 100% Pura Importada - Soldiers Nutrition\n\n💰 De <s>R$ 113,00</s> por <b>R$ 33,90</b> (-70%)\n⭐ 4,9 · +24 mil vendidos"
+   },
+   "facebook": "1137759795515206"
   }
  ]
 }
