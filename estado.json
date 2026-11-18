@@ -1,5 +1,5 @@
 {
- "contador": 11,
+ "contador": 12,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -33,7 +33,10 @@
   "ig | 2026-11-18 11:00 | Creatina Suplemento Monohidratada",
   "ig | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
   "fb | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
-  "tg | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio"
+  "tg | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
+  "ig | 2026-11-18 20:00 | Prateleira Sapateira 9 Andares",
+  "fb | 2026-11-18 20:00 | Prateleira Sapateira 9 Andares",
+  "tg | 2026-11-18 20:00 | Prateleira Sapateira 9 Andares"
  ],
  "publicados": [
   {
@@ -286,6 +289,29 @@
    "reel": "17980558524158797",
    "story": "17968073577233986",
    "facebook": "1618049763336340"
+  },
+  {
+   "numero": 12,
+   "chave": "2026-11-18 20:00 | Prateleira Sapateira 9 Andares",
+   "em": "2026-11-18T20:16:34.201988-03:00",
+   "produto": "Prateleira Sapateira 9 Andares",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/3qOhfygIQQ",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-7rdvo-mcb1mf1khcohec",
+   "preco": "R$ 39,99",
+   "item": {
+    "produto": "Prateleira Sapateira 9 Andares",
+    "loja": "Shopee",
+    "itemId": "23694425028",
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-7rdvo-mcb1mf1khcohec",
+    "video": "",
+    "link": "https://s.shopee.com.br/3qOhfygIQQ",
+    "preco": "R$ 39,99",
+    "texto": "🧡 <b>Prateleira Sapateira 9 Andares</b>\n\nPrateleira Sapateira 9 Andares De Metal E Plastico Organizador Multiuso Prata Para Sapatos Calçados a\n\n💰 De <s>R$ 99,97</s> por <b>R$ 39,99</b> (-60%)\n⭐ 4,9 · +11 mil vendidos"
+   },
+   "reel": "17998187862111846",
+   "story": "18102455825088528",
+   "facebook": "2634441916983508"
   }
  ]
 }
