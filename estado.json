@@ -1,5 +1,5 @@
 {
- "contador": 10,
+ "contador": 11,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -29,7 +29,11 @@
   "fb | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
   "tg | 2026-11-17 20:00 | Fadvan 5D W Extensões De Cílios",
   "fb | 2026-11-18 11:00 | Creatina Suplemento Monohidratada",
-  "tg | 2026-11-18 11:00 | Creatina Suplemento Monohidratada"
+  "tg | 2026-11-18 11:00 | Creatina Suplemento Monohidratada",
+  "ig | 2026-11-18 11:00 | Creatina Suplemento Monohidratada",
+  "ig | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
+  "fb | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
+  "tg | 2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio"
  ],
  "publicados": [
   {
@@ -259,6 +263,29 @@
     "texto": "🧡 <b>Creatina Suplemento Monohidratada</b>\n\nCreatina Suplemento Monohidratada em Pó 100% Pura Importada - Soldiers Nutrition\n\n💰 De <s>R$ 113,00</s> por <b>R$ 33,90</b> (-70%)\n⭐ 4,9 · +24 mil vendidos"
    },
    "facebook": "1137759795515206"
+  },
+  {
+   "numero": 11,
+   "chave": "2026-11-18 15:00 | Fone de ouvido Bluetooth Sem Fio",
+   "em": "2026-11-18T15:01:44.529375-03:00",
+   "produto": "Fone de ouvido Bluetooth Sem Fio",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/50aezqUVXK",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-824gf-mf8cvs3kgwela4",
+   "preco": "R$ 24,87",
+   "item": {
+    "produto": "Fone de ouvido Bluetooth Sem Fio",
+    "loja": "Shopee",
+    "itemId": "22494456015",
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-824gf-mf8cvs3kgwela4",
+    "video": "",
+    "link": "https://s.shopee.com.br/50aezqUVXK",
+    "preco": "R$ 24,87",
+    "texto": "🧡 <b>Fone de ouvido Bluetooth Sem Fio</b>\n\nFone de ouvido Bluetooth Sem Fio Headphone Bluetooth Recarregável P9 Air Top Casual Esportivo\n\n💰 De <s>R$ 46,92</s> por <b>R$ 24,87</b> (-47%)\n⭐ 4,7 · +15 mil vendidos"
+   },
+   "reel": "17980558524158797",
+   "story": "17968073577233986",
+   "facebook": "1618049763336340"
   }
  ]
 }
