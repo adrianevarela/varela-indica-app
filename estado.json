@@ -1,5 +1,5 @@
 {
- "contador": 13,
+ "contador": 14,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -39,7 +39,10 @@
   "tg | 2026-11-18 20:00 | Prateleira Sapateira 9 Andares",
   "ig | 2026-11-19 11:00 | Celimax The Vita A Retinal Shot",
   "fb | 2026-11-19 11:00 | Celimax The Vita A Retinal Shot",
-  "tg | 2026-11-19 11:00 | Celimax The Vita A Retinal Shot"
+  "tg | 2026-11-19 11:00 | Celimax The Vita A Retinal Shot",
+  "ig | 2026-11-19 15:00 | Air Fryer Britânia 4,2L Dura Mais",
+  "fb | 2026-11-19 15:00 | Air Fryer Britânia 4,2L Dura Mais",
+  "tg | 2026-11-19 15:00 | Air Fryer Britânia 4,2L Dura Mais"
  ],
  "publicados": [
   {
@@ -340,6 +343,31 @@
    "reel": "17922560865245456",
    "story": "18182390557453656",
    "facebook": "1543103707996626"
+  },
+  {
+   "numero": 14,
+   "chave": "2026-11-19 15:00 | Air Fryer Britânia 4,2L Dura Mais",
+   "em": "2026-11-19T15:01:28.763829-03:00",
+   "produto": "Air Fryer Britânia 4,2L Dura Mais",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/7AfANqfCoY",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-8258f-mudi8zi45c034a",
+   "preco": "R$ 199,00",
+   "item": {
+    "produto": "Air Fryer Britânia 4,2L Dura Mais",
+    "loja": "Shopee",
+    "itemId": "20199206047",
+    "comissao": 45.77,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-8258f-mudi8zi45c034a",
+    "video": "",
+    "link": "https://s.shopee.com.br/7AfANqfCoY",
+    "link_tg": "https://s.shopee.com.br/60TCzhjeBN",
+    "preco": "R$ 199,00",
+    "texto": "🧡 <b>Air Fryer Britânia 4,2L Dura Mais</b>\n\nAir Fryer Britânia 4,2L Dura Mais 1500W BFR38\n\n💰 De <s>R$ 248,75</s> por <b>R$ 199,00</b> (-20%)\n⭐ 4,9 · +1 mil vendidos"
+   },
+   "reel": "18254913136308640",
+   "story": "18133939060894588",
+   "facebook": "28639429599092568"
   }
  ]
 }
