@@ -1,5 +1,5 @@
 {
- "contador": 17,
+ "contador": 18,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -51,7 +51,10 @@
   "tg | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
   "ig | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
   "fb | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
-  "tg | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio"
+  "tg | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
+  "ig | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
+  "fb | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
+  "tg | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem"
  ],
  "publicados": [
   {
@@ -452,6 +455,31 @@
    "reel": "18646676266019606",
    "story": "18102141926095804",
    "facebook": "1704662541236616"
+  },
+  {
+   "numero": 18,
+   "chave": "2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
+   "em": "2026-11-20T20:01:41.604955-03:00",
+   "produto": "ROMANTIC CROWN Mochila Viagem",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/AUvdwqBgvk",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lv-mt38wyvxh81x6a",
+   "preco": "R$ 109,98",
+   "item": {
+    "produto": "ROMANTIC CROWN Mochila Viagem",
+    "loja": "Shopee",
+    "itemId": "22497773735",
+    "comissao": 8.8,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lv-mt38wyvxh81x6a",
+    "video": "",
+    "link": "https://s.shopee.com.br/AUvdwqBgvk",
+    "link_tg": "https://s.shopee.com.br/ql8R4m4zP",
+    "preco": "R$ 109,98",
+    "texto": "🧡 <b>ROMANTIC CROWN Mochila Viagem</b>\n\nROMANTIC CROWN Mochila Viagem Feminina Masculina Multifuncional Reforçada Impermeável Expansível, Notebook Antifurto USB\n\n💰 De <s>R$ 297,24</s> por <b>R$ 109,98</b> (-63%)\n⭐ 5,0 · +4 mil vendidos"
+   },
+   "reel": "17983764357137227",
+   "story": "18344257375279921",
+   "facebook": "997271196784285"
   }
  ]
 }
