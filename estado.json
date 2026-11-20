@@ -1,5 +1,5 @@
 {
- "contador": 16,
+ "contador": 17,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -48,7 +48,10 @@
   "tg | 2026-11-19 20:00 | 20/30/40/50 Sacos de Presente PVC",
   "ig | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
   "fb | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
-  "tg | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica"
+  "tg | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
+  "ig | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
+  "fb | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
+  "tg | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio"
  ],
  "publicados": [
   {
@@ -424,6 +427,31 @@
    "reel": "18119560202146601",
    "story": "18399060406236406",
    "facebook": "29161523063517618"
+  },
+  {
+   "numero": 17,
+   "chave": "2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
+   "em": "2026-11-20T15:01:33.005931-03:00",
+   "produto": "Areia Higiênica Biodegradável Catbio",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/2gCmcRNyvU",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mdxnq2dguwht29",
+   "preco": "R$ 146,90",
+   "item": {
+    "produto": "Areia Higiênica Biodegradável Catbio",
+    "loja": "Shopee",
+    "itemId": "22098874077",
+    "comissao": 10.28,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mdxnq2dguwht29",
+    "video": "",
+    "link": "https://s.shopee.com.br/2gCmcRNyvU",
+    "link_tg": "https://s.shopee.com.br/2gCmcRNV73",
+    "preco": "R$ 146,90",
+    "texto": "🧡 <b>Areia Higiênica Biodegradável Catbio</b>\n\nAreia Higiênica Biodegradável Catbio 12 Kg (3 pacotes de 4 kg) - Max Clean - Grãos Finos - novo\n\n💰 De <s>R$ 179,15</s> por <b>R$ 146,90</b> (-18%)\n⭐ 4,9 · +7 mil vendidos"
+   },
+   "reel": "18646676266019606",
+   "story": "18102141926095804",
+   "facebook": "1704662541236616"
   }
  ]
 }
