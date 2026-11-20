@@ -1,5 +1,5 @@
 {
- "contador": 15,
+ "contador": 16,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -45,7 +45,10 @@
   "tg | 2026-11-19 15:00 | Air Fryer Britânia 4,2L Dura Mais",
   "ig | 2026-11-19 20:00 | 20/30/40/50 Sacos de Presente PVC",
   "fb | 2026-11-19 20:00 | 20/30/40/50 Sacos de Presente PVC",
-  "tg | 2026-11-19 20:00 | 20/30/40/50 Sacos de Presente PVC"
+  "tg | 2026-11-19 20:00 | 20/30/40/50 Sacos de Presente PVC",
+  "ig | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
+  "fb | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
+  "tg | 2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica"
  ],
  "publicados": [
   {
@@ -396,6 +399,31 @@
    "reel": "18132881680871479",
    "story": "18102976190435088",
    "facebook": "29167264592896060"
+  },
+  {
+   "numero": 16,
+   "chave": "2026-11-20 11:00 | Escova De Limpeza 9 Em 1 Elétrica",
+   "em": "2026-11-20T11:27:43.437183-03:00",
+   "produto": "Escova De Limpeza 9 Em 1 Elétrica",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/5fqOBvM6HO",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-81ztc-mj5cubo7uz29de",
+   "preco": "R$ 69,90",
+   "item": {
+    "produto": "Escova De Limpeza 9 Em 1 Elétrica",
+    "loja": "Shopee",
+    "itemId": "23493930815",
+    "comissao": 9.09,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-81ztc-mj5cubo7uz29de",
+    "video": "",
+    "link": "https://s.shopee.com.br/5fqOBvM6HO",
+    "link_tg": "https://s.shopee.com.br/W8I2QfhUQ",
+    "preco": "R$ 69,90",
+    "texto": "🧡 <b>Escova De Limpeza 9 Em 1 Elétrica</b>\n\nEscova De Limpeza 9 Em 1  Elétrica Giratória Com Cabo Alongador\n\n💰 De <s>R$ 179,23</s> por <b>R$ 69,90</b> (-61%)\n⭐ 4,8 · +8 mil vendidos"
+   },
+   "reel": "18119560202146601",
+   "story": "18399060406236406",
+   "facebook": "29161523063517618"
   }
  ]
 }
