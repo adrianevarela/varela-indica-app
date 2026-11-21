@@ -1,5 +1,5 @@
 {
- "contador": 19,
+ "contador": 20,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -57,7 +57,10 @@
   "tg | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
   "ig | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
   "fb | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
-  "tg | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9"
+  "tg | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
+  "ig | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
+  "fb | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
+  "tg | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça"
  ],
  "publicados": [
   {
@@ -508,6 +511,31 @@
    "reel": "17918104914503749",
    "story": "18427956274155492",
    "facebook": "2681042412320758"
+  },
+  {
+   "numero": 20,
+   "chave": "2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
+   "em": "2026-11-21T15:01:28.246112-03:00",
+   "produto": "Mesa Maleta Portátil Reforçada Alça",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1gKH1TFMck",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mm9nofg4vcavfe",
+   "preco": "R$ 139,99",
+   "item": {
+    "produto": "Mesa Maleta Portátil Reforçada Alça",
+    "loja": "Shopee",
+    "itemId": "22198393127",
+    "comissao": 15.4,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mm9nofg4vcavfe",
+    "video": "",
+    "link": "https://s.shopee.com.br/1gKH1TFMck",
+    "link_tg": "https://s.shopee.com.br/LotR1KN4I",
+    "preco": "R$ 139,99",
+    "texto": "🧡 <b>Mesa Maleta Portátil Reforçada Alça</b>\n\nMesa Maleta Portátil Reforçada Alça Festa Trabalho Exposição Camping Viagem\n\n💰 De <s>R$ 279,98</s> por <b>R$ 139,99</b> (-50%)\n⭐ 4,9 · +3 mil vendidos"
+   },
+   "reel": "18136623604737946",
+   "story": "18148531930720329",
+   "facebook": "2199648817574814"
   }
  ]
 }
