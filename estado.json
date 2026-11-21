@@ -1,5 +1,5 @@
 {
- "contador": 20,
+ "contador": 21,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -60,7 +60,10 @@
   "tg | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
   "ig | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
   "fb | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
-  "tg | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça"
+  "tg | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
+  "ig | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
+  "fb | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
+  "tg | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –"
  ],
  "publicados": [
   {
@@ -536,6 +539,31 @@
    "reel": "18136623604737946",
    "story": "18148531930720329",
    "facebook": "2199648817574814"
+  },
+  {
+   "numero": 21,
+   "chave": "2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
+   "em": "2026-11-21T20:01:36.674216-03:00",
+   "produto": "Kit 4 Rolos de Sacos de Lixo 10L –",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1qdhDmanUM",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mh5k70jhwveo39",
+   "preco": "R$ 24,29",
+   "item": {
+    "produto": "Kit 4 Rolos de Sacos de Lixo 10L –",
+    "loja": "Shopee",
+    "itemId": "22394343234",
+    "comissao": 4.37,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mh5k70jhwveo39",
+    "video": "",
+    "link": "https://s.shopee.com.br/1qdhDmanUM",
+    "link_tg": "https://s.shopee.com.br/1W0qpAbaMg",
+    "preco": "R$ 24,29",
+    "texto": "🧡 <b>Kit 4 Rolos de Sacos de Lixo 10L –</b>\n\nKit 4 Rolos de Sacos de Lixo 10L – 160 Unidades | Neutraliza Odores | Ideal para Pia e Banheiro\n\n💰 De <s>R$ 69,40</s> por <b>R$ 24,29</b> (-65%)\n⭐ 4,9 · +9 mil vendidos"
+   },
+   "reel": "17953755276057031",
+   "story": "18101096936653602",
+   "facebook": "1485284273704300"
   }
  ]
 }
