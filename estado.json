@@ -1,5 +1,5 @@
 {
- "contador": 18,
+ "contador": 19,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -54,7 +54,10 @@
   "tg | 2026-11-20 15:00 | Areia Higiênica Biodegradável Catbio",
   "ig | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
   "fb | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
-  "tg | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem"
+  "tg | 2026-11-20 20:00 | ROMANTIC CROWN Mochila Viagem",
+  "ig | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
+  "fb | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
+  "tg | 2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9"
  ],
  "publicados": [
   {
@@ -480,6 +483,31 @@
    "reel": "17983764357137227",
    "story": "18344257375279921",
    "facebook": "997271196784285"
+  },
+  {
+   "numero": 19,
+   "chave": "2026-11-21 11:00 | Kit Un Saco Saquinho Organza 7x9",
+   "em": "2026-11-21T11:01:36.360365-03:00",
+   "produto": "Kit Un Saco Saquinho Organza 7x9",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/60TGBQKrCa",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mqncf8vk7hfl76",
+   "preco": "R$ 39,90",
+   "item": {
+    "produto": "Kit Un Saco Saquinho Organza 7x9",
+    "loja": "Shopee",
+    "itemId": "22392335023",
+    "comissao": 7.58,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mqncf8vk7hfl76",
+    "video": "",
+    "link": "https://s.shopee.com.br/60TGBQKrCa",
+    "link_tg": "https://s.shopee.com.br/5Au9BtORT1",
+    "preco": "R$ 39,90",
+    "texto": "🧡 <b>Kit Un Saco Saquinho Organza 7x9</b>\n\nKit 05/25/50/100 Un Saco Saquinho Organza 7x9 9x12 10x15 Branco Lembrancinha Festa Casamento\n\n💰 De <s>R$ 75,28</s> por <b>R$ 39,90</b> (-47%)\n⭐ 4,9 · +12 mil vendidos"
+   },
+   "reel": "17918104914503749",
+   "story": "18427956274155492",
+   "facebook": "2681042412320758"
   }
  ]
 }
