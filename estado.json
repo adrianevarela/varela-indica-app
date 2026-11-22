@@ -1,5 +1,5 @@
 {
- "contador": 22,
+ "contador": 23,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -66,7 +66,10 @@
   "tg | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
   "ig | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
   "fb | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
-  "tg | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio"
+  "tg | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
+  "ig | 2026-11-22 15:00 | Kit Cozinha Brinquedo Infantil Fogão",
+  "fb | 2026-11-22 15:00 | Kit Cozinha Brinquedo Infantil Fogão",
+  "tg | 2026-11-22 15:00 | Kit Cozinha Brinquedo Infantil Fogão"
  ],
  "publicados": [
   {
@@ -592,6 +595,31 @@
    "reel": "18134979556790878",
    "story": "17923295070461620",
    "facebook": "1844144290343323"
+  },
+  {
+   "numero": 23,
+   "chave": "2026-11-22 15:00 | Kit Cozinha Brinquedo Infantil Fogão",
+   "em": "2026-11-22T15:01:34.137223-03:00",
+   "produto": "Kit Cozinha Brinquedo Infantil Fogão",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/8AXmMIiGAE",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820me-mvf5ayl47m699f",
+   "preco": "R$ 29,98",
+   "item": {
+    "produto": "Kit Cozinha Brinquedo Infantil Fogão",
+    "loja": "Shopee",
+    "itemId": "20599359513",
+    "comissao": 3.9,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820me-mvf5ayl47m699f",
+    "video": "",
+    "link": "https://s.shopee.com.br/8AXmMIiGAE",
+    "link_tg": "https://s.shopee.com.br/5fqRNhrMeX",
+    "preco": "R$ 29,98",
+    "texto": "🧡 <b>Kit Cozinha Brinquedo Infantil Fogão</b>\n\nKit Cozinha Brinquedo Infantil Fogão Forno Panelinhas Xícaras Acessórios Faz de Conta\n\n💰 De <s>R$ 44,09</s> por <b>R$ 29,98</b> (-32%)\n⭐ 4,7 · +1 mil vendidos"
+   },
+   "reel": "18016910561975405",
+   "story": "18155187943553300",
+   "facebook": "3222766841246147"
   }
  ]
 }
