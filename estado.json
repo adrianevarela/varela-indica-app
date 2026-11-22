@@ -1,5 +1,5 @@
 {
- "contador": 21,
+ "contador": 22,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -63,7 +63,10 @@
   "tg | 2026-11-21 15:00 | Mesa Maleta Portátil Reforçada Alça",
   "ig | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
   "fb | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
-  "tg | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –"
+  "tg | 2026-11-21 20:00 | Kit 4 Rolos de Sacos de Lixo 10L –",
+  "ig | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
+  "fb | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
+  "tg | 2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio"
  ],
  "publicados": [
   {
@@ -564,6 +567,31 @@
    "reel": "17953755276057031",
    "story": "18101096936653602",
    "facebook": "1485284273704300"
+  },
+  {
+   "numero": 22,
+   "chave": "2026-11-22 11:00 | Kit Luminária Solar 100 Leds Sem Fio",
+   "em": "2026-11-22T11:01:28.740585-03:00",
+   "produto": "Kit Luminária Solar 100 Leds Sem Fio",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/6Amhycck4Q",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-8259h-mtosnu62eh3a6d",
+   "preco": "R$ 89,90",
+   "item": {
+    "produto": "Kit Luminária Solar 100 Leds Sem Fio",
+    "loja": "Shopee",
+    "itemId": "20456488740",
+    "comissao": 13.48,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-8259h-mtosnu62eh3a6d",
+    "video": "",
+    "link": "https://s.shopee.com.br/6Amhycck4Q",
+    "link_tg": "https://s.shopee.com.br/9AQJY8RBWG",
+    "preco": "R$ 89,90",
+    "texto": "🧡 <b>Kit Luminária Solar 100 Leds Sem Fio</b>\n\nKit 5/6/10 Luminária Solar 100 Leds Sem Fio à Prova D&#x27; Água Externa 3 Modos Iluminação Casa Decoração\n\n💰 De <s>R$ 169,62</s> por <b>R$ 89,90</b> (-47%)\n⭐ 4,8 · +1 mil vendidos"
+   },
+   "reel": "18134979556790878",
+   "story": "17923295070461620",
+   "facebook": "1844144290343323"
   }
  ]
 }
