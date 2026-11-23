@@ -1,5 +1,5 @@
 {
- "contador": 26,
+ "contador": 27,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -78,7 +78,10 @@
   "tg | 2026-11-23 11:00 | Bicicleta Bike Ergometrica Spinning",
   "ig | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
   "fb | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
-  "tg | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem"
+  "tg | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
+  "ig | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
+  "fb | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
+  "tg | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento"
  ],
  "publicados": [
   {
@@ -704,6 +707,31 @@
    "reel": "18573858763077340",
    "story": "18002082198030933",
    "facebook": "1476403367966517"
+  },
+  {
+   "numero": 27,
+   "chave": "2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
+   "em": "2026-11-23T20:01:29.932638-03:00",
+   "produto": "Kit 15 unid Sachê Friskies Alimento",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1C6EBmuuu",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820l5-mut4i4hfcjczb9",
+   "preco": "R$ 42,50",
+   "item": {
+    "produto": "Kit 15 unid Sachê Friskies Alimento",
+    "loja": "Shopee",
+    "itemId": "22893283679",
+    "comissao": 6.29,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820l5-mut4i4hfcjczb9",
+    "video": "",
+    "link": "https://s.shopee.com.br/1C6EBmuuu",
+    "link_tg": "https://s.shopee.com.br/W8Mp6l9PM",
+    "preco": "R$ 42,50",
+    "texto": "🧡 <b>Kit 15 unid Sachê Friskies Alimento</b>\n\nKit 15 unid Sachê Friskies Alimento Úmido Gatos Carne Frango Atum Peixe Branco Cordeiro Salmão Peru\n\n💰 De <s>R$ 57,43</s> por <b>R$ 42,50</b> (-26%)\n⭐ 5,0 · +6 mil vendidos"
+   },
+   "reel": "18467384584193150",
+   "story": "17987038788121480",
+   "facebook": "1074308408966494"
   }
  ]
 }
