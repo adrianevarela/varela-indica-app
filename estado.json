@@ -1,5 +1,5 @@
 {
- "contador": 25,
+ "contador": 26,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -75,7 +75,10 @@
   "tg | 2026-11-22 20:00 | Kit Wella Professionals Invigo",
   "ig | 2026-11-23 11:00 | Bicicleta Bike Ergometrica Spinning",
   "fb | 2026-11-23 11:00 | Bicicleta Bike Ergometrica Spinning",
-  "tg | 2026-11-23 11:00 | Bicicleta Bike Ergometrica Spinning"
+  "tg | 2026-11-23 11:00 | Bicicleta Bike Ergometrica Spinning",
+  "ig | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
+  "fb | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
+  "tg | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem"
  ],
  "publicados": [
   {
@@ -676,6 +679,31 @@
    "reel": "17877661797638481",
    "story": "17976735927152500",
    "facebook": "1777782183289606"
+  },
+  {
+   "numero": 26,
+   "chave": "2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
+   "em": "2026-11-23T15:01:38.821549-03:00",
+   "produto": "ROMANTIC CROWN Mochila De Viagem",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/8pnUkPtMJD",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820mg-msxmjc85ee4n07",
+   "preco": "R$ 109,98",
+   "item": {
+    "produto": "ROMANTIC CROWN Mochila De Viagem",
+    "loja": "Shopee",
+    "itemId": "23997726120",
+    "comissao": 8.8,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820mg-msxmjc85ee4n07",
+    "video": "",
+    "link": "https://s.shopee.com.br/8pnUkPtMJD",
+    "link_tg": "https://s.shopee.com.br/6fj0AR1fzw",
+    "preco": "R$ 109,98",
+    "texto": "🧡 <b>ROMANTIC CROWN Mochila De Viagem</b>\n\nROMANTIC CROWN Mochila De Viagem Feminina Multifuncional Impermeável Reforçada Expansível para Trilha Esportiva\n\n💰 De <s>R$ 687,37</s> por <b>R$ 109,98</b> (-84%)\n⭐ 5,0 · +2 mil vendidos"
+   },
+   "reel": "18573858763077340",
+   "story": "18002082198030933",
+   "facebook": "1476403367966517"
   }
  ]
 }
