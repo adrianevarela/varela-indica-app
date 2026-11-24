@@ -1,5 +1,5 @@
 {
- "contador": 29,
+ "contador": 30,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -86,7 +86,11 @@
   "tg | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
   "ig | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
   "fb | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
-  "tg | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve"
+  "tg | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
+  "ig | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
+  "ig | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
+  "fb | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
+  "tg | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás"
  ],
  "publicados": [
   {
@@ -783,6 +787,31 @@
     "texto": "🧡 <b>Kit 2 Óleos Extraordinário Elseve</b>\n\nKit 2 Óleos Extraordinário Elseve 100ml Nutrição Profunda e Anti-Frizz\n\n💰 De <s>R$ 114,74</s> por <b>R$ 69,99</b> (-39%)\n⭐ 5,0 · +29 mil vendidos"
    },
    "facebook": "1190222403348192"
+  },
+  {
+   "numero": 30,
+   "chave": "2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
+   "em": "2026-11-24T20:01:34.375308-03:00",
+   "produto": "Ventilador Luminária Led 6 Pás",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1gKLoAX3lG",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mhqkzkrt4w03ba",
+   "preco": "R$ 42,99",
+   "item": {
+    "produto": "Ventilador Luminária Led 6 Pás",
+    "loja": "Shopee",
+    "itemId": "19697980846",
+    "comissao": 6.45,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-81z1k-mhqkzkrt4w03ba",
+    "video": "",
+    "link": "https://s.shopee.com.br/1gKLoAX3lG",
+    "link_tg": "https://s.shopee.com.br/3VlzzXQQMX",
+    "preco": "R$ 42,99",
+    "texto": "🧡 <b>Ventilador Luminária Led 6 Pás</b>\n\nVentilador Luminária Led 6 Pás Lâmpada Soquete Bocal E27 Teto 3 Cores Luz Branco Amarelo Bivolt\n\n💰 De <s>R$ 89,56</s> por <b>R$ 42,99</b> (-52%)\n⭐ 4,8 · +9 mil vendidos"
+   },
+   "reel": "18133363421481315",
+   "story": "18137720143706797",
+   "facebook": "1471808191037403"
   }
  ]
 }
