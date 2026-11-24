@@ -1,5 +1,5 @@
 {
- "contador": 27,
+ "contador": 28,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -81,7 +81,9 @@
   "tg | 2026-11-23 15:00 | ROMANTIC CROWN Mochila De Viagem",
   "ig | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
   "fb | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
-  "tg | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento"
+  "tg | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
+  "fb | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
+  "tg | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas"
  ],
  "publicados": [
   {
@@ -732,6 +734,29 @@
    "reel": "18467384584193150",
    "story": "17987038788121480",
    "facebook": "1074308408966494"
+  },
+  {
+   "numero": 28,
+   "chave": "2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
+   "em": "2026-11-24T11:01:35.945312-03:00",
+   "produto": "Cooktop Itatiaia Essencial 5 Bocas",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/9zzTjRy9j8",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-7r98o-m9aj2vda8dmqe3",
+   "preco": "R$ 410,16",
+   "item": {
+    "produto": "Cooktop Itatiaia Essencial 5 Bocas",
+    "loja": "Shopee",
+    "itemId": "18398159764",
+    "comissao": 28.71,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-7r98o-m9aj2vda8dmqe3",
+    "video": "",
+    "link": "https://s.shopee.com.br/9zzTjRy9j8",
+    "link_tg": "https://s.shopee.com.br/9KjmwE0h54",
+    "preco": "R$ 410,16",
+    "texto": "🧡 <b>Cooktop Itatiaia Essencial 5 Bocas</b>\n\nCooktop Itatiaia Essencial 5 Bocas Preto – Bivolt 127V/220V com Acendimento Automático\n\n💰 De <s>R$ 482,54</s> por <b>R$ 410,16</b> (-15%)\n⭐ 4,9 · +4 mil vendidos"
+   },
+   "facebook": "1575891321011977"
   }
  ]
 }
