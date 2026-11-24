@@ -1,5 +1,5 @@
 {
- "contador": 28,
+ "contador": 29,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -83,7 +83,10 @@
   "fb | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
   "tg | 2026-11-23 20:00 | Kit 15 unid Sachê Friskies Alimento",
   "fb | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
-  "tg | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas"
+  "tg | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
+  "ig | 2026-11-24 11:00 | Cooktop Itatiaia Essencial 5 Bocas",
+  "fb | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
+  "tg | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve"
  ],
  "publicados": [
   {
@@ -757,6 +760,29 @@
     "texto": "🧡 <b>Cooktop Itatiaia Essencial 5 Bocas</b>\n\nCooktop Itatiaia Essencial 5 Bocas Preto – Bivolt 127V/220V com Acendimento Automático\n\n💰 De <s>R$ 482,54</s> por <b>R$ 410,16</b> (-15%)\n⭐ 4,9 · +4 mil vendidos"
    },
    "facebook": "1575891321011977"
+  },
+  {
+   "numero": 29,
+   "chave": "2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
+   "em": "2026-11-24T15:01:31.127213-03:00",
+   "produto": "Kit 2 Óleos Extraordinário Elseve",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/6AmlAQuPYu",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lm-mu0z10dr92ir66",
+   "preco": "R$ 69,99",
+   "item": {
+    "produto": "Kit 2 Óleos Extraordinário Elseve",
+    "loja": "Shopee",
+    "itemId": "58219972030",
+    "comissao": 10.5,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lm-mu0z10dr92ir66",
+    "video": "",
+    "link": "https://s.shopee.com.br/6AmlAQuPYu",
+    "link_tg": "https://s.shopee.com.br/7VI8ksor0e",
+    "preco": "R$ 69,99",
+    "texto": "🧡 <b>Kit 2 Óleos Extraordinário Elseve</b>\n\nKit 2 Óleos Extraordinário Elseve 100ml Nutrição Profunda e Anti-Frizz\n\n💰 De <s>R$ 114,74</s> por <b>R$ 69,99</b> (-39%)\n⭐ 5,0 · +29 mil vendidos"
+   },
+   "facebook": "1190222403348192"
   }
  ]
 }
