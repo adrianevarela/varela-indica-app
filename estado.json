@@ -1,5 +1,5 @@
 {
- "contador": 31,
+ "contador": 32,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -93,7 +93,10 @@
   "tg | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
   "ig | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
   "fb | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
-  "tg | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos"
+  "tg | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
+  "ig | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
+  "fb | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
+  "tg | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark"
  ],
  "publicados": [
   {
@@ -840,6 +843,31 @@
    "reel": "17917065945287256",
    "story": "18191575069414229",
    "facebook": "1134762489342572"
+  },
+  {
+   "numero": 32,
+   "chave": "2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
+   "em": "2026-11-25T15:01:32.449418-03:00",
+   "produto": "Whey Protein Fuse 900g Isolate Dark",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/3qOrz1LfQ8",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-7r98o-lzaxtiavhw6de4",
+   "preco": "R$ 78,90",
+   "item": {
+    "produto": "Whey Protein Fuse 900g Isolate Dark",
+    "loja": "Shopee",
+    "itemId": "23197485445",
+    "comissao": 20.51,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-7r98o-lzaxtiavhw6de4",
+    "video": "",
+    "link": "https://s.shopee.com.br/3qOrz1LfQ8",
+    "link_tg": "https://s.shopee.com.br/4LL8ZwJh8z",
+    "preco": "R$ 78,90",
+    "texto": "🧡 <b>Whey Protein Fuse 900g Isolate Dark</b>\n\nWhey Protein Fuse 900g Isolate Dark Lab\n\n💰 De <s>R$ 161,02</s> por <b>R$ 78,90</b> (-51%)\n⭐ 4,8 · +4 mil vendidos"
+   },
+   "reel": "17967336447212044",
+   "story": "18120263147016036",
+   "facebook": "2314979242698896"
   }
  ]
 }
