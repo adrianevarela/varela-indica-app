@@ -1,5 +1,5 @@
 {
- "contador": 32,
+ "contador": 33,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -96,7 +96,10 @@
   "tg | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
   "ig | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
   "fb | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
-  "tg | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark"
+  "tg | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
+  "ig | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
+  "fb | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
+  "tg | 2026-11-25 20:00 | BB Cream Foundation/Concealer with"
  ],
  "publicados": [
   {
@@ -868,6 +871,31 @@
    "reel": "17967336447212044",
    "story": "18120263147016036",
    "facebook": "2314979242698896"
+  },
+  {
+   "numero": 33,
+   "chave": "2026-11-25 20:00 | BB Cream Foundation/Concealer with",
+   "em": "2026-11-25T20:01:32.252091-03:00",
+   "produto": "BB Cream Foundation/Concealer with",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/AAIvWfbDvV",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-822yk-mo94qpmn0j5y3a",
+   "preco": "R$ 31,99",
+   "item": {
+    "produto": "BB Cream Foundation/Concealer with",
+    "loja": "Shopee",
+    "itemId": "58260720450",
+    "comissao": 3.84,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-822yk-mo94qpmn0j5y3a",
+    "video": "",
+    "link": "https://s.shopee.com.br/AAIvWfbDvV",
+    "link_tg": "https://s.shopee.com.br/1qdnbM6oJ4",
+    "preco": "R$ 31,99",
+    "texto": "🧡 <b>BB Cream Foundation/Concealer with</b>\n\nBB Cream Foundation/Concealer with Mushroom-Shaped Sponge Makeup Whitening Cream Martin Natural  HB2006\n\n💰 De <s>R$ 49,98</s> por <b>R$ 31,99</b> (-36%)\n⭐ 4,9 · +9 mil vendidos"
+   },
+   "reel": "18398997331161157",
+   "story": "18135524836688205",
+   "facebook": "1129773586437560"
   }
  ]
 }
