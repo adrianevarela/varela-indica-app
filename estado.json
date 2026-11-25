@@ -1,5 +1,5 @@
 {
- "contador": 30,
+ "contador": 31,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -90,7 +90,10 @@
   "ig | 2026-11-24 15:00 | Kit 2 Óleos Extraordinário Elseve",
   "ig | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
   "fb | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
-  "tg | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás"
+  "tg | 2026-11-24 20:00 | Ventilador Luminária Led 6 Pás",
+  "ig | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
+  "fb | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
+  "tg | 2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos"
  ],
  "publicados": [
   {
@@ -812,6 +815,31 @@
    "reel": "18133363421481315",
    "story": "18137720143706797",
    "facebook": "1471808191037403"
+  },
+  {
+   "numero": 31,
+   "chave": "2026-11-25 11:00 | Areia 4Kg Biodegradável Kadi Grãos",
+   "em": "2026-11-25T11:01:31.024124-03:00",
+   "produto": "Areia 4Kg Biodegradável Kadi Grãos",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/AAIvWdtd8h",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-7rdxl-mdet8ey488yyfe",
+   "preco": "R$ 31,66",
+   "item": {
+    "produto": "Areia 4Kg Biodegradável Kadi Grãos",
+    "loja": "Shopee",
+    "itemId": "44162911290",
+    "comissao": 4.75,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-7rdxl-mdet8ey488yyfe",
+    "video": "",
+    "link": "https://s.shopee.com.br/AAIvWdtd8h",
+    "link_tg": "https://s.shopee.com.br/80EQwf1oFp",
+    "preco": "R$ 31,66",
+    "texto": "🧡 <b>Areia 4Kg Biodegradável Kadi Grãos</b>\n\nAreia 4Kg Biodegradável Kadi Grãos Finos para Gatos\n\n💰 De <s>R$ 50,25</s> por <b>R$ 31,66</b> (-37%)\n⭐ 4,8 · +8 mil vendidos"
+   },
+   "reel": "17917065945287256",
+   "story": "18191575069414229",
+   "facebook": "1134762489342572"
   }
  ]
 }
