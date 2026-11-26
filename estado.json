@@ -1,5 +1,5 @@
 {
- "contador": 34,
+ "contador": 35,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -102,7 +102,10 @@
   "tg | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
   "ig | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
   "fb | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
-  "tg | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade"
+  "tg | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
+  "ig | 2026-11-26 15:00 | Micro-ondas Electrolux 20L cor Inox",
+  "fb | 2026-11-26 15:00 | Micro-ondas Electrolux 20L cor Inox",
+  "tg | 2026-11-26 15:00 | Micro-ondas Electrolux 20L cor Inox"
  ],
  "publicados": [
   {
@@ -924,6 +927,31 @@
    "reel": "18137478707508896",
    "story": "17948926785367672",
    "facebook": "1983315472631399"
+  },
+  {
+   "numero": 35,
+   "chave": "2026-11-26 15:00 | Micro-ondas Electrolux 20L cor Inox",
+   "em": "2026-11-26T15:01:36.999509-03:00",
+   "produto": "Micro-ondas Electrolux 20L cor Inox",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/9V3GKMYzbM",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-81zv2-mimr97xprbi923",
+   "preco": "R$ 499,00",
+   "item": {
+    "produto": "Micro-ondas Electrolux 20L cor Inox",
+    "loja": "Shopee",
+    "itemId": "22794554573",
+    "comissao": 14.97,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-81zv2-mimr97xprbi923",
+    "video": "",
+    "link": "https://s.shopee.com.br/9V3GKMYzbM",
+    "link_tg": "https://s.shopee.com.br/9pg6iyXivS",
+    "preco": "R$ 499,00",
+    "texto": "🧡 <b>Micro-ondas Electrolux 20L cor Inox</b>\n\nMicro-ondas Electrolux 20L cor Inox Espelhado com Função Tira Odor (MT30S)\n\n💰 De <s>R$ 631,65</s> por <b>R$ 499,00</b> (-21%)\n⭐ 4,9 · +3 mil vendidos"
+   },
+   "reel": "18221038339357878",
+   "story": "18109152851201422",
+   "facebook": "2676286179470605"
   }
  ]
 }
