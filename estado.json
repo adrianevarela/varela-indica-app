@@ -1,5 +1,5 @@
 {
- "contador": 33,
+ "contador": 34,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -99,7 +99,10 @@
   "tg | 2026-11-25 15:00 | Whey Protein Fuse 900g Isolate Dark",
   "ig | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
   "fb | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
-  "tg | 2026-11-25 20:00 | BB Cream Foundation/Concealer with"
+  "tg | 2026-11-25 20:00 | BB Cream Foundation/Concealer with",
+  "ig | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
+  "fb | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
+  "tg | 2026-11-26 11:00 | Kit 7 Saquinhos Maternidade"
  ],
  "publicados": [
   {
@@ -896,6 +899,31 @@
    "reel": "18398997331161157",
    "story": "18135524836688205",
    "facebook": "1129773586437560"
+  },
+  {
+   "numero": 34,
+   "chave": "2026-11-26 11:00 | Kit 7 Saquinhos Maternidade",
+   "em": "2026-11-26T11:01:32.226179-03:00",
+   "produto": "Kit 7 Saquinhos Maternidade",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/1CB0r1VBB",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lr-mpxy82d0505ccb",
+   "preco": "R$ 12,99",
+   "item": {
+    "produto": "Kit 7 Saquinhos Maternidade",
+    "loja": "Shopee",
+    "itemId": "58213273842",
+    "comissao": 9.48,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lr-mpxy82d0505ccb",
+    "video": "",
+    "link": "https://s.shopee.com.br/1CB0r1VBB",
+    "link_tg": "https://s.shopee.com.br/3B9Cmfp2Ce",
+    "preco": "R$ 12,99",
+    "texto": "🧡 <b>Kit 7 Saquinhos Maternidade</b>\n\nKit 7 Saquinhos Maternidade Organizador Mala Bebê  Mala/Viagem/Roupa Molhada e Seca\n\n💰 De <s>R$ 19,10</s> por <b>R$ 12,99</b> (-32%)\n⭐ 4,8 · +6 mil vendidos"
+   },
+   "reel": "18137478707508896",
+   "story": "17948926785367672",
+   "facebook": "1983315472631399"
   }
  ]
 }
