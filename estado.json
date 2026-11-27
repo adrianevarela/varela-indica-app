@@ -1,5 +1,5 @@
 {
- "contador": 37,
+ "contador": 38,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -111,7 +111,10 @@
   "tg | 2026-11-26 20:00 | ROMANTIC CROWN Mochila de Viagem",
   "ig | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
   "fb | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
-  "tg | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4"
+  "tg | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
+  "ig | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
+  "fb | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
+  "tg | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática"
  ],
  "publicados": [
   {
@@ -1008,6 +1011,31 @@
    "reel": "18103912229428081",
    "story": "17972884907965773",
    "facebook": "1137096658939074"
+  },
+  {
+   "numero": 38,
+   "chave": "2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
+   "em": "2026-11-27T15:01:39.684242-03:00",
+   "produto": "Garrafa 1700, 900ml Térmica Prática",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/4qHSMdNCvc",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mmnmb62hdxjab4",
+   "preco": "R$ 56,99",
+   "item": {
+    "produto": "Garrafa 1700, 900ml Térmica Prática",
+    "loja": "Shopee",
+    "itemId": "23594336224",
+    "comissao": 13.68,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lj-mmnmb62hdxjab4",
+    "video": "",
+    "link": "https://s.shopee.com.br/4qHSMdNCvc",
+    "link_tg": "https://s.shopee.com.br/6L6G9OHMLc",
+    "preco": "R$ 56,99",
+    "texto": "🧡 <b>Garrafa 1700, 900ml Térmica Prática</b>\n\nGarrafa 1700, 900ml Térmica Prática Versátil Aço Inoxidável Com Alça Transporte Fácil Confortável\n\n💰 De <s>R$ 70,36</s> por <b>R$ 56,99</b> (-19%)\n⭐ 4,8 · +2 mil vendidos"
+   },
+   "reel": "17886901644526436",
+   "story": "18123904147954033",
+   "facebook": "2005157697556025"
   }
  ]
 }
