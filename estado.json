@@ -1,5 +1,5 @@
 {
- "contador": 38,
+ "contador": 39,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -114,7 +114,10 @@
   "tg | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
   "ig | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
   "fb | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
-  "tg | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática"
+  "tg | 2026-11-27 15:00 | Garrafa 1700, 900ml Térmica Prática",
+  "ig | 2026-11-27 20:00 | Ventilador de Teto com Luminária",
+  "fb | 2026-11-27 20:00 | Ventilador de Teto com Luminária",
+  "tg | 2026-11-27 20:00 | Ventilador de Teto com Luminária"
  ],
  "publicados": [
   {
@@ -1036,6 +1039,31 @@
    "reel": "17886901644526436",
    "story": "18123904147954033",
    "facebook": "2005157697556025"
+  },
+  {
+   "numero": 39,
+   "chave": "2026-11-27 20:00 | Ventilador de Teto com Luminária",
+   "em": "2026-11-27T20:01:29.658887-03:00",
+   "produto": "Ventilador de Teto com Luminária",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/8pnb80BuG9",
+   "foto": "https://cf.shopee.com.br/file/br-11134207-820lv-mucakoljif43ac",
+   "preco": "R$ 52,90",
+   "item": {
+    "produto": "Ventilador de Teto com Luminária",
+    "loja": "Shopee",
+    "itemId": "52069294000",
+    "comissao": 6.35,
+    "foto": "https://cf.shopee.com.br/file/br-11134207-820lv-mucakoljif43ac",
+    "video": "",
+    "link": "https://s.shopee.com.br/8pnb80BuG9",
+    "link_tg": "https://s.shopee.com.br/8VAkjODAwB",
+    "preco": "R$ 52,90",
+    "texto": "🧡 <b>Ventilador de Teto com Luminária</b>\n\nVentilador de Teto com Luminária Controle Remoto LED 6 Pás 3 Cores de Luz Bivolt Soquete E27 Silencioso\n\n💰 De <s>R$ 123,02</s> por <b>R$ 52,90</b> (-57%)\n⭐ 4,8 · +3 mil vendidos"
+   },
+   "reel": "17917949712485602",
+   "story": "18163227841493881",
+   "facebook": "921028127671833"
   }
  ]
 }
