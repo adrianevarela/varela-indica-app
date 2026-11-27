@@ -1,5 +1,5 @@
 {
- "contador": 36,
+ "contador": 37,
  "feitos": [
   "ig | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
   "fb | 2026-11-15 20:00 | Hidrabene Protetor Solar Clareador",
@@ -108,7 +108,10 @@
   "tg | 2026-11-26 15:00 | Micro-ondas Electrolux 20L cor Inox",
   "ig | 2026-11-26 20:00 | ROMANTIC CROWN Mochila de Viagem",
   "fb | 2026-11-26 20:00 | ROMANTIC CROWN Mochila de Viagem",
-  "tg | 2026-11-26 20:00 | ROMANTIC CROWN Mochila de Viagem"
+  "tg | 2026-11-26 20:00 | ROMANTIC CROWN Mochila de Viagem",
+  "ig | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
+  "fb | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
+  "tg | 2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4"
  ],
  "publicados": [
   {
@@ -980,6 +983,31 @@
    "reel": "17916784713587997",
    "story": "18122487110083525",
    "facebook": "1136448385958628"
+  },
+  {
+   "numero": 37,
+   "chave": "2026-11-27 11:00 | Whiskas Sachê 85g – 16 Unid +4",
+   "em": "2026-11-27T11:01:29.723394-03:00",
+   "produto": "Whiskas Sachê 85g – 16 Unid +4",
+   "loja": "Shopee",
+   "link": "https://s.shopee.com.br/W8TCevdbY",
+   "foto": "https://cf.shopee.com.br/file/sg-11134201-81zus-mn30gipk4ni911",
+   "preco": "R$ 55,90",
+   "item": {
+    "produto": "Whiskas Sachê 85g – 16 Unid +4",
+    "loja": "Shopee",
+    "itemId": "29392573808",
+    "comissao": 5.59,
+    "foto": "https://cf.shopee.com.br/file/sg-11134201-81zus-mn30gipk4ni911",
+    "video": "",
+    "link": "https://s.shopee.com.br/W8TCevdbY",
+    "link_tg": "https://s.shopee.com.br/AKcOujK8Nx",
+    "preco": "R$ 55,90",
+    "texto": "🧡 <b>Whiskas Sachê 85g – 16 Unid +4</b>\n\nWhiskas Sachê 85g – 16 Unid +4 Grátis Leve 20\n\n💰 De <s>R$ 78,73</s> por <b>R$ 55,90</b> (-29%)\n⭐ 5,0 · +14 mil vendidos"
+   },
+   "reel": "18103912229428081",
+   "story": "17972884907965773",
+   "facebook": "1137096658939074"
   }
  ]
 }
